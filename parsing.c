@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 12:27:00 by norabino          #+#    #+#             */
-/*   Updated: 2025/04/28 19:04:36 by norabino         ###   ########.fr       */
+/*   Updated: 2025/05/02 17:49:31 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,19 +137,18 @@ int	ft_count_seps(char *str)
 	return (nb);
 }
 
-void	ft_init_tokens(t_token *tokens, char *line, int size)
+void	ft_init_tokens(t_token *tokens, int size)
 {
 	int	i;
 
 	i = 0;
-	(void)line;
 	while (i <= size)
 	{
 		tokens[i].str = NULL;
-		//tokens[i].type = NULL;
+		tokens[i].type = NONE;
 		if (i < size)
 			tokens[i].ind = i;
-		else
+		else if (i >= size)
 			tokens[i].ind = -1;
 		i++;
 	}
@@ -159,26 +158,94 @@ int	ft_init(t_minishell command)
 {
 	int	token_count;
 
-	token_count = ft_count_seps(command.line);
-	command.tokens = (t_token *)malloc(sizeof(t_token) * token_count + 2);
+	//token_count = ft_count_seps(command.line) + 2; // one because token_count = (ft_count_seps + 1), and one for \0
+	token_count = 2 + 2; 
+	command.tokens = (t_token *)malloc(sizeof(t_token) * token_count);
 		if (!command.tokens)
 			return (1);
-	ft_init_tokens(command.tokens, command.line, token_count);
+	ft_init_tokens(command.tokens, token_count);
 	return (0);
 }
 
-int	ft_parse_args(char *line)
+int	ft_parse_args_quotes(char *line)
 {
 	int beg;
 
 	// 34 = double quotes
 	// 39 = single quote
 	beg = 0;
-	while (line[beg] && (line[beg] != 34 && line[beg] != 39))
+	while (line[beg] && (line[beg] != '"' && line[beg] != 39))
 		beg++;
 	if (line[beg] != 34 && line[beg] != 39)
 		return (printf("No quotes"), 1);
 	printf("%s", ft_handle_meta_chars(line, beg + 1));
+	return (0);
+}
+
+
+char	*ft_strdup(char *str)
+{
+	char	*tab;
+	int		i;
+
+	tab = (char *)malloc(ft_strlen(str) + 1);
+	if (!tab)
+		return (NULL);
+	i = 0;
+	while (str[i])
+	{
+		tab[i] = str[i];
+		i++;
+	}
+	tab[i] = 0;
+	return (tab);
+}
+
+int	ft_ind_firstspace(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] && str[i] != ' ')
+		i++;
+	if (!str[i])
+		return (-1);
+	return (i);
+}
+
+int	ft_settokens(t_minishell command)
+{
+	int	ind;
+
+	ind = 0;
+	while (command.tokens[ind].ind != -1)
+	{
+		if (command.tokens[ind].ind == 0)
+		{
+			command.tokens[ind].str = ft_strdup(ft_substr(command.line, 0, ft_ind_firstspace(command.line) - 1));
+			command.tokens[ind].type = CMD;
+		}
+		else
+		{
+			command.tokens[ind].str = ft_strdup(ft_substr(command.line, ft_ind_firstspace(command.line) + 1, ft_strlen(command.line) - ft_ind_firstspace(command.line)));
+			command.tokens[ind].type = ARG;
+		}
+		ind++;
+	}
+	return (0);
+}
+
+int	ft_print_tokens(t_minishell command)
+{
+	int	ind;
+
+	ind = 0;
+	while (command.tokens[ind].ind != -1)
+	{
+		ft_settokens(command);
+		printf("Token = '%s' Type = '%d'\n", command.tokens[ind].str, command.tokens[ind].type);
+		ind++;
+	}
 	return (0);
 }
 
@@ -195,11 +262,12 @@ int	main()
 		{
 			if (!verif_quotes(command.line))
 			{
-				printf("Open quotes");
+				printf("Error : Open quotes.\n");
 				continue;
 			}
 			ft_init(command);
-			//ft_parse_args(command.line);
+			//ft_parse_args_quotes(command.line);
+			ft_print_tokens(command);
 			//ft_exec(); // ta fonction pour ton programme
 		}
 		free(command.line);
