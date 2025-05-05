@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 12:27:00 by norabino          #+#    #+#             */
-/*   Updated: 2025/05/04 18:02:37 by norabino         ###   ########.fr       */
+/*   Updated: 2025/05/05 14:19:05 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ char	*ft_substr(char *s, int start, int len)
 	if (!str)
 		return (NULL);
 	i = 0;
-	while (i < len && s[i])
+	while (i < len && s[start + i])
 	{
 		str[i] = s[start + i];
 		i++;
@@ -154,16 +154,15 @@ void	ft_init_tokens(t_token *tokens, int size)
 	}
 }
 
-int	ft_init(t_minishell command)
+int	ft_init(t_minishell *command)
 {
 	int	token_count;
 
-	//token_count = ft_count_seps(command.line) + 2; // one because token_count = (ft_count_seps + 1), and one for \0
-	token_count = 2 + 2; 
-	command.tokens = (t_token *)malloc(sizeof(t_token) * token_count);
-		if (!command.tokens)
+	token_count = ft_count_seps(command->line) + 2; // one because token_count = (ft_count_seps + 1), and one for \0
+	command->tokens = (t_token *)malloc(sizeof(t_token) * token_count);
+		if (!command->tokens)
 			return (1);
-	ft_init_tokens(command.tokens, token_count);
+	ft_init_tokens(command->tokens, token_count - 1);
 	return (0);
 }
 
@@ -213,40 +212,67 @@ int	ft_ind_firstspace(char *str)
 	return (i);
 }
 
-int	ft_settokens(t_minishell command)
+int	ft_settokens(t_minishell *command)
 {
 	int	ind;
+	int	space_index;
 
 	ind = 0;
-	while (command.tokens[ind].ind != -1)
+	space_index = ft_ind_firstspace(command->line);
+	while (command->tokens[ind].ind != -1)
 	{
-		if (command.tokens[ind].ind == 0)
+		if (command->tokens[ind].ind == 0)
 		{
-			command.tokens[ind].str = ft_strdup(ft_substr(command.line, 0, ft_ind_firstspace(command.line) - 1));
-			command.tokens[ind].type = CMD;
+			if (space_index == -1)
+                command->tokens[ind].str = ft_strdup(command->line);
+			else
+				command->tokens[ind].str = ft_strdup(ft_substr(command->line, 0, space_index));
+			command->tokens[ind].type = CMD;
 		}
-		else
+		else if (space_index != -1)
 		{
-			command.tokens[ind].str = ft_strdup(ft_substr(command.line, ft_ind_firstspace(command.line) + 1, ft_strlen(command.line) - ft_ind_firstspace(command.line)));
-			command.tokens[ind].type = ARG;
+			command->tokens[ind].str = ft_strdup(ft_substr(command->line, space_index + 1, ft_strlen(command->line) - (space_index + 1)));
+			command->tokens[ind].type = ARG;
 		}
 		ind++;
 	}
 	return (0);
 }
 
-int	ft_print_tokens(t_minishell command)
+int	ft_print_tokens(t_minishell *command)
 {
 	int	ind;
 
 	ind = 0;
-	while (command.tokens[ind].ind != -1)
+	while (command->tokens[ind].ind != -1 && ind < 2)
 	{
-		ft_settokens(command);
-		printf("Token = '%s' Type = '%d'\n", command.tokens[ind].str, command.tokens[ind].type);
+		if (command->tokens[ind].type != 2)
+			printf("Token = '%s' | Type = ", command->tokens[ind].str);
+		if (command->tokens[ind].type == 0)
+			printf("'CMD'\n");
+		if (command->tokens[ind].type == 1)
+			printf("'ARG'\n");
 		ind++;
 	}
+	printf("\nind = %d\n", ind);
 	return (0);
+}
+
+void free_tokens(t_minishell *command)
+{
+    int i = 0;
+    
+    if (!command->tokens)
+        return;
+        
+    while (command->tokens[i].ind != -1)
+    {
+        if (command->tokens[i].str)
+            free(command->tokens[i].str);
+        i++;
+    }
+    free(command->tokens);
+    command->tokens = NULL;
 }
 
 int	main()
@@ -265,11 +291,13 @@ int	main()
 				printf("Error : Open quotes.\n");
 				continue;
 			}
-			ft_init(command);
+			ft_init(&command);
 			//ft_parse_args_quotes(command.line);
-			ft_print_tokens(command);
+			ft_settokens(&command);
+			ft_print_tokens(&command);
 			//ft_exec(); // ta fonction pour ton programme
 		}
+		free_tokens(&command);
 		free(command.line);
 	}
 	return (0);

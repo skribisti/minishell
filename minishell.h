@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 17:20:42 by norabino          #+#    #+#             */
-/*   Updated: 2025/05/02 17:46:39 by norabino         ###   ########.fr       */
+/*   Updated: 2025/05/04 18:28:44 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@
 
 typedef enum e_token_type
 {
-	NONE,
 	CMD,
 	ARG,
+	NONE,
 }	t_token_type;
 
 typedef	struct s_token
