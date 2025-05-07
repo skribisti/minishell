@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 12:27:00 by norabino          #+#    #+#             */
-/*   Updated: 2025/05/05 14:19:05 by norabino         ###   ########.fr       */
+/*   Updated: 2025/05/07 15:29:16 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,33 +137,22 @@ int	ft_count_seps(char *str)
 	return (nb);
 }
 
-void	ft_init_tokens(t_token *tokens, int size)
+int	ft_init(t_minishell *command, int nb_cmds)
 {
 	int	i;
 
 	i = 0;
-	while (i <= size)
+	command->command_line = malloc(nb_cmds * sizeof(t_command_line));
+	if (!command->command_line)
+		return (0);
+	while (i < nb_cmds)
 	{
-		tokens[i].str = NULL;
-		tokens[i].type = NONE;
-		if (i < size)
-			tokens[i].ind = i;
-		else if (i >= size)
-			tokens[i].ind = -1;
+		command->command_line[i].cmd = NULL;
+		command->command_line[i].args = NULL;
+		command->command_line[i].splitted = NULL;
 		i++;
 	}
-}
-
-int	ft_init(t_minishell *command)
-{
-	int	token_count;
-
-	token_count = ft_count_seps(command->line) + 2; // one because token_count = (ft_count_seps + 1), and one for \0
-	command->tokens = (t_token *)malloc(sizeof(t_token) * token_count);
-		if (!command->tokens)
-			return (1);
-	ft_init_tokens(command->tokens, token_count - 1);
-	return (0);
+	return (1);
 }
 
 int	ft_parse_args_quotes(char *line)
@@ -212,67 +201,133 @@ int	ft_ind_firstspace(char *str)
 	return (i);
 }
 
-int	ft_settokens(t_minishell *command)
+int	ft_nbpipes(char *line)
 {
-	int	ind;
-	int	space_index;
+	int	i;
+	int	cpt;
 
-	ind = 0;
-	space_index = ft_ind_firstspace(command->line);
-	while (command->tokens[ind].ind != -1)
+	i = 0;
+	cpt = 0;
+	while (line[i])
 	{
-		if (command->tokens[ind].ind == 0)
-		{
-			if (space_index == -1)
-                command->tokens[ind].str = ft_strdup(command->line);
-			else
-				command->tokens[ind].str = ft_strdup(ft_substr(command->line, 0, space_index));
-			command->tokens[ind].type = CMD;
-		}
-		else if (space_index != -1)
-		{
-			command->tokens[ind].str = ft_strdup(ft_substr(command->line, space_index + 1, ft_strlen(command->line) - (space_index + 1)));
-			command->tokens[ind].type = ARG;
-		}
-		ind++;
+		if (line[i] == '|')
+			cpt++;
+		i++;
 	}
-	return (0);
+	return (cpt);
+}
+
+int	ft_nextpipe(char *line, int last_pipe)
+{
+	while (line[last_pipe] && line[last_pipe] != '|')
+		last_pipe++;
+	return (last_pipe);
 }
 
 int	ft_print_tokens(t_minishell *command)
 {
-	int	ind;
+	int	i = 0;
+	int	j;
 
-	ind = 0;
-	while (command->tokens[ind].ind != -1 && ind < 2)
+	while (i < command->nb_cmd)
 	{
-		if (command->tokens[ind].type != 2)
-			printf("Token = '%s' | Type = ", command->tokens[ind].str);
-		if (command->tokens[ind].type == 0)
-			printf("'CMD'\n");
-		if (command->tokens[ind].type == 1)
-			printf("'ARG'\n");
-		ind++;
+		printf("Command %d:\n", i + 1);
+		printf("CMD = %s\n", command->command_line[i].cmd);
+		printf("ARGS = %s\n\n", command->command_line[i].args);
+		
+		if (command->command_line[i].splitted)
+		{
+			printf("Splitted arguments:\n");
+			j = 0;
+			while (command->command_line[i].splitted[j])
+			{
+				printf("  [%d] %s\n", j, command->command_line[i].splitted[j]);
+				j++;
+			}
+		}
+		printf("\n\n");
+		i++;
 	}
-	printf("\nind = %d\n", ind);
 	return (0);
+}
+
+void	ft_free_split(char **splitted)
+{
+	int	i;
+
+	i = 0;
+	while (splitted[i])
+	{
+		free (splitted[i]);
+		i++;
+	}
+	free(splitted);
 }
 
 void free_tokens(t_minishell *command)
 {
-    int i = 0;
+	int	i;
+
+	i = 0;
+	while (i < command->nb_cmd)
+	{
+		if (command->command_line[i].args)
+	    	free(command->command_line[i].args);
+		if (command->command_line[i].cmd)
+			free(command->command_line[i].cmd);
+		if (command->command_line[i].splitted)
+			ft_free_split(command->command_line[i].splitted);
+		i++;
+	}
+	free(command->command_line);
+}
+
+int ft_parse_commandsegment(t_minishell *command, int cmd_index, char *segment)
+{
+    int space_index;
+    int start = 0;
     
-    if (!command->tokens)
-        return;
+    while (segment[start] && segment[start] == ' ')
+        start++;
+    space_index = start;
+    while (segment[space_index] && segment[space_index] != ' ')
+        space_index++;
         
-    while (command->tokens[i].ind != -1)
+    if (segment[space_index] == '\0')
     {
-        if (command->tokens[i].str)
-            free(command->tokens[i].str);
-        i++;
+        command->command_line[cmd_index].cmd = ft_strdup(segment + start);
+        command->command_line[cmd_index].args = ft_strdup(segment);
     }
-    free(command->tokens);
-    command->tokens = NULL;
+    else
+    {
+        command->command_line[cmd_index].cmd = ft_strdup(
+            ft_substr(segment, start, space_index - start));
+        command->command_line[cmd_index].args = ft_strdup(segment);
+        command->command_line[cmd_index].splitted = ft_split(segment, ' ');
+    }
+    return (0);
+}
+
+int ft_parse_commandline(t_minishell *command)
+{
+    int i = 0;
+    int pipe_start = 0;
+    int pipe_end = 0;
+    char *cmd_segment;
+
+    command->nb_cmd = ft_nbpipes(command->line) + 1;
+    ft_init(command, command->nb_cmd);
+    while (i < command->nb_cmd)
+    {
+        pipe_end = ft_nextpipe(command->line, pipe_start);
+        cmd_segment = ft_substr(command->line, pipe_start, (pipe_end - pipe_start));
+        ft_parse_commandsegment(command, i, cmd_segment);
+        pipe_start = pipe_end + 1;
+        i++;
+        free(cmd_segment);
+    }
+    
+    return (0);
 }
 
 int	main()
@@ -286,15 +341,15 @@ int	main()
 			break ;
 		if (*command.line)
 		{
+			command.nb_cmd = ft_nbpipes(command.line) + 1;
 			if (!verif_quotes(command.line))
 			{
 				printf("Error : Open quotes.\n");
 				continue;
 			}
-			ft_init(&command);
-			//ft_parse_args_quotes(command.line);
-			ft_settokens(&command);
+			ft_parse_commandline(&command);
 			ft_print_tokens(&command);
+			//ft_parse_args_quotes(command.line);
 			//ft_exec(); // ta fonction pour ton programme
 		}
 		free_tokens(&command);

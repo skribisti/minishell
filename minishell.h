@@ -6,37 +6,24 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 17:20:42 by norabino          #+#    #+#             */
-/*   Updated: 2025/05/04 18:28:44 by norabino         ###   ########.fr       */
+/*   Updated: 2025/05/06 14:48:18 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*typedef enum e_token_type
-{
-	INPUT,
-	HEREDOC,
-	TRUNC,
-	APPEND,
-	PIPE,
-	CMD,
-	ARG,
-}	t_token_type;*/
+#include <stdlib.h>
 
-typedef enum e_token_type
+typedef	struct s_command_line
 {
-	CMD,
-	ARG,
-	NONE,
-}	t_token_type;
-
-typedef	struct s_token
-{
-	char			*str;
-	t_token_type	type;
-	int				ind;
-}	t_token;
+	char *cmd;
+	char *args;
+	char **splitted;
+}	t_command_line;
 
 typedef struct s_minishell
 {
 	char	*line;
-	t_token	*tokens;
+	int		nb_cmd;
+	t_command_line	*command_line;
 }	t_minishell;
+
+char	**ft_split(char const *str, char c);
