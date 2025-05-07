@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 17:20:42 by norabino          #+#    #+#             */
-/*   Updated: 2025/05/07 15:52:37 by norabino         ###   ########.fr       */
+/*   Updated: 2025/05/07 19:05:47 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,17 @@
 
 # include <readline/readline.h>
 # include <readline/history.h>
+
+// ri <
+// ro >
+// aro >>
+
+typedef struct s_redirections
+{
+	char	*ri;
+	char	*ro;
+	char	*aro;
+}	t_rdr;
 
 typedef	struct s_command_line
 {
@@ -31,6 +42,7 @@ typedef struct s_minishell
 	char	*line;
 	int		nb_cmd;
 	t_command_line	*command_line;
+	t_rdr	*redirects;
 }	t_minishell;
 
 
@@ -56,5 +68,7 @@ char	*ft_substr(char *s, int start, int len);
 int	verif_quotes(char *str);
 int	ft_strlen(char *str);
 char	**ft_split(char const *str, char c);
+
+int	ft_handle_redirections(t_minishell *command, char *segment, int cmd_index);
 
 #endif

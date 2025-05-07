@@ -2,7 +2,7 @@ NAME = minishell
 
 CFLAGS = -Wall -Wextra -Werror
 SRCS = src/main.c\
-	src/parsing/parsing.c\
+	src/parsing/parsing.c src/parsing/redirections.c \
 	src/memory/ft_mem.c\
 	src/utils/ft_split.c\
 	src/utils/ft_str_utils.c src/utils/ft_str_utils2.c src/utils/ft_str_utils3.c

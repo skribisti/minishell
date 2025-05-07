@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 12:27:00 by norabino          #+#    #+#             */
-/*   Updated: 2025/05/07 16:11:39 by norabino         ###   ########.fr       */
+/*   Updated: 2025/05/07 19:20:26 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,12 @@ int	ft_print_tokens(t_minishell *command)
 				j++;
 			}
 		}
+        if (command->redirects[i].ri)
+            printf("ri < = %s")
 		printf("\n\n");
 		i++;
 	}
+
 	return (0);
 }
 
@@ -44,6 +47,7 @@ int ft_parse_commandsegment(t_minishell *command, int cmd_index, char *segment)
     int space_index;
     int start = 0;
     
+    ft_handle_redirections(command, segment, cmd_index);
     while (segment[start] && segment[start] == ' ')
         start++;
     space_index = start;
