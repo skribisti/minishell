@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 12:27:00 by norabino          #+#    #+#             */
-/*   Updated: 2025/05/09 16:25:53 by norabino         ###   ########.fr       */
+/*   Updated: 2025/05/09 17:17:17 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,11 @@ int	ft_print_tokens(t_minishell *command)
         if (command->command_line[i].redirect.ri)
             printf("  RI = %s\n", command->command_line[i].redirect.ri);
         if (command->command_line[i].redirect.heredoc)
-            printf("  HEREDOC << = %s\n", command->command_line[i].redirect.heredoc);
+            printf("  HEREDOC = %s\n", command->command_line[i].redirect.heredoc);
         if (command->command_line[i].redirect.ro)
-            printf("  RO > = %s\n", command->command_line[i].redirect.ro);
+            printf("  RO = %s\n", command->command_line[i].redirect.ro);
         if (command->command_line[i].redirect.aro)
-            printf("  ARO >> = %s\n", command->command_line[i].redirect.aro);
+            printf("  ARO = %s\n", command->command_line[i].redirect.aro);
 		printf("\n\n");
 		i++;
 	}

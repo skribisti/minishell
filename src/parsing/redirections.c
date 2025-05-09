@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 18:25:48 by norabino          #+#    #+#             */
-/*   Updated: 2025/05/09 17:02:47 by norabino         ###   ########.fr       */
+/*   Updated: 2025/05/09 17:10:59 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,5 @@ int	ft_handle_redirections(t_minishell *command, char *segment, int cmd_index)
 			command->command_line[cmd_index].redirect.aro = ft_substr(segment, begin_rdr, end_rdr - begin_rdr);
 		}
 		ft_set_spaces(segment, redirection, end_rdr - redirection);
-		return (0);
 	}
 }
