@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 17:20:42 by norabino          #+#    #+#             */
-/*   Updated: 2025/05/07 19:05:47 by norabino         ###   ########.fr       */
+/*   Updated: 2025/05/09 15:52:39 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,14 @@
 # include <readline/history.h>
 
 // ri <
+// heredoc <<
 // ro >
 // aro >>
 
 typedef struct s_redirections
 {
 	char	*ri;
+	char	*heredoc;
 	char	*ro;
 	char	*aro;
 }	t_rdr;
@@ -35,6 +37,7 @@ typedef	struct s_command_line
 	char *cmd;
 	char *args;
 	char **splitted;
+	t_rdr	redirect;
 }	t_command_line;
 
 typedef struct s_minishell
@@ -42,16 +45,14 @@ typedef struct s_minishell
 	char	*line;
 	int		nb_cmd;
 	t_command_line	*command_line;
-	t_rdr	*redirects;
 }	t_minishell;
 
 
 
 /* FUNCTIONS */
-int ft_parse_commandline(t_minishell *command)
-;
-int ft_parse_commandsegment(t_minishell *command, int cmd_index, char *segment)
-;
+int	ft_search(char *str, char c);
+int ft_parse_commandline(t_minishell *command);
+int ft_parse_commandsegment(t_minishell *command, int cmd_index, char *segment);
 int	ft_print_tokens(t_minishell *command);
 void free_command_lines(t_minishell *command);
 void	ft_free_split(char **splitted);

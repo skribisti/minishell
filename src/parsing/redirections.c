@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 18:25:48 by norabino          #+#    #+#             */
-/*   Updated: 2025/05/07 19:27:40 by norabino         ###   ########.fr       */
+/*   Updated: 2025/05/09 16:55:56 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,14 @@ int	ft_search(char *str, char c)
 	}
 	return (0);
 }
-int	ft_get_index(char *segment, int *end_rdr)
+int	ft_get_index(char *segment, int *begin_rdr, int *end_rdr, int rdr_len)
 {
-	while (segment[*end_rdr] && segment[*end_rdr] == ' ')
-			(*end_rdr)++;
-	if (!segment[*end_rdr])
+	*begin_rdr += rdr_len;
+	while (segment[*begin_rdr] && segment[*begin_rdr] == ' ')
+			(*begin_rdr)++;
+	if (!segment[*begin_rdr])
 		return (0);
+	*end_rdr = *begin_rdr;
 	while (segment[*end_rdr] != ' ')
 		(*end_rdr)++;
 	return (1);
@@ -52,38 +54,51 @@ int	ft_handle_redirections(t_minishell *command, char *segment, int cmd_index)
 {
 	int	begin_rdr;
 	int	end_rdr;
+	int redirection;
 
 	while (1)
 	{
 		if (!ft_search(segment, '<') && !ft_search(segment, '>'))
 			return (1);
-		begin_rdr = 0;
-		while (segment[begin_rdr] != '<' && segment[begin_rdr] != '>')
-			begin_rdr++;
-		begin_rdr++;
-		end_rdr = begin_rdr + 1;
-		// ri
-		if (segment[begin_rdr] == '<')
+		redirection = 0;
+		while (segment[redirection] != '<' && segment[redirection] != '>')
+			redirection++;
+		begin_rdr = redirection;
+		end_rdr = 0;
+		if ((segment[redirection] == '<' && segment[redirection + 1] == '<') || 
+            (segment[redirection] == '>' && segment[redirection + 1] == '>'))
+            begin_rdr++;
+		// ri <
+		if (segment[redirection] == '<')
 		{
-			if (!ft_get_index(segment, &end_rdr))
+			if (!ft_get_index(segment, &begin_rdr, &end_rdr, 1))
 				return (0);
-			command->redirects[cmd_index].ri = ft_substr(segment, begin_rdr, end_rdr - begin_rdr);
+			command->command_line[cmd_index].redirect.ri = ft_substr(segment, begin_rdr, end_rdr - begin_rdr);
 		}
-		// ro
-		else if (segment[begin_rdr] == '<' && segment[begin_rdr + 1] && segment[begin_rdr + 1] != '<')
+		// heredoc <<
+		else if (segment[redirection] == '<' && segment[redirection + 1] == '<')
 		{
-			if (!ft_get_index(segment, &end_rdr))
+			if (!ft_get_index(segment, &begin_rdr, &end_rdr, 2))
 				return (0);
-			command->redirects[cmd_index].ro = ft_substr(segment, begin_rdr, end_rdr - begin_rdr);
+			command->command_line[cmd_index].redirect.heredoc = ft_substr(segment, begin_rdr, end_rdr - begin_rdr);
 		}
-		// aro
-		else if (segment[begin_rdr] == '<' && segment[begin_rdr + 1] && segment[begin_rdr + 1] == '<')
+		// ro >
+		else if (segment[redirection] == '>')
 		{
-			if (!ft_get_index(segment, &end_rdr))
+			if (!ft_get_index(segment, &begin_rdr, &end_rdr, 1))
 				return (0);
-			command->redirects[cmd_index].aro = ft_substr(segment, begin_rdr, end_rdr - begin_rdr);
+			command->command_line[cmd_index].redirect.ro = ft_substr(segment, begin_rdr, end_rdr - begin_rdr);
 		}
-		ft_set_spaces(segment, begin_rdr, end_rdr - begin_rdr);
+		// aro >>
+		else if (segment[redirection] == '>' && segment[redirection + 1] == '>')
+		{
+			if (!ft_get_index(segment, &begin_rdr, &end_rdr, 2))
+				return (0);
+			command->command_line[cmd_index].redirect.aro = ft_substr(segment, begin_rdr, end_rdr - begin_rdr);
+		}
+		printf("redirection index = %d", redirection);
+		ft_set_spaces(segment, redirection, end_rdr - redirection);
+		printf("\nseg = %s\n", segment);
+		return (0);
 	}
-	
 }

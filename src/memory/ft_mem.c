@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 15:57:23 by norabino          #+#    #+#             */
-/*   Updated: 2025/05/07 18:23:03 by norabino         ###   ########.fr       */
+/*   Updated: 2025/05/09 16:00:17 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,17 @@ int	ft_init(t_minishell *command, int nb_cmds)
 
 	i = 0;
 	command->command_line = malloc(nb_cmds * sizeof(t_command_line));
-	command->redirects = malloc(nb_cmds * sizeof(t_rdr));
-	if (!command->command_line || !command->redirects)
+	if (!command->command_line)
 		return (0);
 	while (i < nb_cmds)
 	{
 		command->command_line[i].cmd = NULL;
 		command->command_line[i].args = NULL;
 		command->command_line[i].splitted = NULL;
-		command->redirects[i].ri = NULL;
-		command->redirects[i].ro = NULL;
-		command->redirects[i].aro = NULL;
+		command->command_line[i].redirect.ri = NULL;
+		command->command_line[i].redirect.heredoc = NULL,
+		command->command_line[i].redirect.ro = NULL;
+		command->command_line[i].redirect.aro = NULL;
 		i++;
 	}
 	return (1);
