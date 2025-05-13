@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 17:20:42 by norabino          #+#    #+#             */
-/*   Updated: 2025/05/09 15:52:39 by norabino         ###   ########.fr       */
+/*   Updated: 2025/05/13 15:56:50 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,7 @@ typedef struct s_redirections
 typedef	struct s_command_line
 {
 	char *cmd;
-	char *args;
-	char **splitted;
+	char **args;
 	t_rdr	redirect;
 }	t_command_line;
 
@@ -50,6 +49,7 @@ typedef struct s_minishell
 
 
 /* FUNCTIONS */
+void	ft_set_spaces(char *segment, int begin, int length);
 int	ft_search(char *str, char c);
 int ft_parse_commandline(t_minishell *command);
 int ft_parse_commandsegment(t_minishell *command, int cmd_index, char *segment);
@@ -70,6 +70,6 @@ int	verif_quotes(char *str);
 int	ft_strlen(char *str);
 char	**ft_split(char const *str, char c);
 
-int	ft_handle_redirections(t_minishell *command, char *segment, int cmd_index);
+void	ft_handle_redirections(t_minishell *command, char *segment, int cmd_index);
 
 #endif

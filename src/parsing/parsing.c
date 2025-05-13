@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 12:27:00 by norabino          #+#    #+#             */
-/*   Updated: 2025/05/09 17:17:17 by norabino         ###   ########.fr       */
+/*   Updated: 2025/05/13 15:22:36 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,13 @@ int	ft_print_tokens(t_minishell *command)
 	while (i < command->nb_cmd)
 	{
 		printf("Command %d:\n", i + 1);
-		//printf("CMD = %s\n", command->command_line[i].cmd);
-		//printf("ARGS = %s\n\n", command->command_line[i].args);
-		if (command->command_line[i].splitted)
+		if (command->command_line[i].args)
 		{
 			printf(" Arguments :\n");
 			j = 0;
-			while (command->command_line[i].splitted[j])
+			while (command->command_line[i].args[j])
 			{
-				printf("  [%d] %s\n", j, command->command_line[i].splitted[j]);
+				printf("  [%d] %s\n", j, command->command_line[i].args[j]);
 				j++;
 			}
 		}
@@ -78,17 +76,13 @@ int ft_parse_commandsegment(t_minishell *command, int cmd_index, char *segment)
         space_index++;
         
     if (segment[space_index] == '\0')
-    {
         command->command_line[cmd_index].cmd = ft_strdup(segment + start);
-        command->command_line[cmd_index].args = ft_strdup(segment);
-    }
     else
     {
         command->command_line[cmd_index].cmd = ft_strdup(
             ft_substr(segment, start, space_index - start));
-        command->command_line[cmd_index].args = ft_strdup(segment);
-        command->command_line[cmd_index].splitted = ft_split(segment, ' ');
-        //ft_remove_redirection_tokens(command->command_line[cmd_index].splitted);
+        command->command_line[cmd_index].args = ft_split(segment, ' ');
+        //ft_remove_redirection_tokens(command->command_line[cmd_index].args);
     }
     return (0);
 }
