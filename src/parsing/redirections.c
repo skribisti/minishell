@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 18:25:48 by norabino          #+#    #+#             */
-/*   Updated: 2025/05/13 15:57:15 by norabino         ###   ########.fr       */
+/*   Updated: 2025/05/13 17:41:18 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,26 @@ int	ft_get_rdrsize(char *segment, int redirection)
 	return (0);
 }
 
+int	ft_cpt_heredoc(char *segment)
+{
+	int	i;
+	int	cpt;
+
+	i = 0;
+	cpt = 0;
+	while (segment[i])
+	{
+		if (segment[i] == '<' && segment[i + 1] == '<')
+		{
+			cpt++;
+			i += 2;
+		}
+		else
+			i++;
+	}
+	return (cpt);
+}
+
 void	ft_redirections(t_minishell *command, char *segment, int redirection, int begin_rdr, int cmd_index)
 {
 	int	end_rdr;
@@ -52,6 +72,7 @@ void	ft_redirections(t_minishell *command, char *segment, int redirection, int b
 	// heredoc <<
 	else if (segment[redirection] == '<' && segment[redirection + 1] == '<')
 		command->command_line[cmd_index].redirect.heredoc = ft_substr(segment, begin_rdr, end_rdr - begin_rdr);
+		//ft_parse_heredoc(command, cmd_index, segment, begin_rdr, end_rdr);
 	// ro >
 	else if (segment[redirection] == '>' && segment[redirection + 1] != '>')
 		command->command_line[cmd_index].redirect.ro = ft_substr(segment, begin_rdr, end_rdr - begin_rdr);
