@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 15:55:50 by norabino          #+#    #+#             */
-/*   Updated: 2025/05/13 16:58:00 by norabino         ###   ########.fr       */
+/*   Updated: 2025/05/14 15:54:00 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,24 @@ int	ft_strstrlen(char **str)
 	while (str[i])
 		i++;
 	return (i);
+}
+
+int	ft_cpt_heredoc(char *segment)
+{
+	int	i;
+	int	cpt;
+
+	i = 0;
+	cpt = 0;
+	while (segment[i])
+	{
+		if (segment[i] == '<' && segment[i + 1] == '<')
+		{
+			cpt++;
+			i += 2;
+		}
+		else
+			i++;
+	}
+	return (cpt);
 }

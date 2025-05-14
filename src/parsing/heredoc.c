@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 16:43:43 by norabino          #+#    #+#             */
-/*   Updated: 2025/05/13 17:41:06 by norabino         ###   ########.fr       */
+/*   Updated: 2025/05/14 19:33:29 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,40 +22,78 @@ int	ft_strcmp(char *s1, char *s2)
 	return (*(unsigned char *)s1 - *(unsigned char *)s2);
 }
 
-int	ft_parse_heredoc(t_minishell *command, int cmd_index, char *segment, int begin_rdr, int end_rdr)
-{
-	if (ft_cpt_heredoc(segment) == 1)
-		command->command_line[cmd_index].redirect.heredoc = ft_substr(segment, begin_rdr, end_rdr - begin_rdr);
-}
-
-
-void	ft_heredoc(char *end)
+void	ft_heredoc(char *end, char ***stockage, int *i)
 {
 	char *input;
-	char **stockage;
-	int	i;
-
-	i = 0;
-	stockage = malloc(sizeof(char *) * 1);
-	if (!stockage)
-		return ;
-	stockage[0] = NULL;
+	
 	while (1)
 	{
-		input = readline(NULL);
-		if (*input)
+		input = readline("heredoc> ");
+		if (!input)
+			break;
+		if (ft_strcmp(input, end) == 0)
 		{
-			if (ft_strcmp(stockage[i], end))
-			{
-				if (i >= ft_strstrlen(stockage))
-					ft_realloc_tab(stockage, ft_strstrlen(stockage));
-				if (i < ft_strstrlen(stockage));
-				stockage[i] = ft_strdup(input);
-			}
-			else
-				break;
+			free(input);
+			break;
 		}
+		*stockage = ft_realloc_tab(*stockage, *i + 1);
+		if (!*stockage)
+        {
+            free(input);
+            return;
+        }
+		(*stockage)[*i] = ft_strdup(input);
+		printf("stockage[i]");
+		if (!(*stockage[*i]))
+		{
+			free(input);
+			(*stockage)[*i] = NULL;
+			return ;
+		}
+		(*i)++;
+		free(input);
 	}
+	if (*stockage)
+		(*stockage)[*i] = NULL;
+}
+
+int	ft_parse_heredoc(t_minishell *command, int cmd_index, char *segment, int *begin_rdr, int *end_rdr)
+{
+	char **stockage;
+	int	i;
+	int	j;
+	int	begin_hd;
+	char **ends;
+
+	begin_hd = 0;
+	while (segment[begin_hd])
+	{
+   		if (segment[begin_hd] == '<')
+    	{
+        	*end_rdr = begin_hd;
+        	while (segment[*end_rdr] && (segment[*end_rdr] == ' ' || segment[*end_rdr] == '<'))
+            	(*end_rdr)++;
+        	ft_set_spaces(segment, begin_hd, *end_rdr - begin_hd);
+        	begin_hd = *end_rdr;
+    	}
+    	else
+        	begin_hd++;
+	}
+	ends = ft_split(ft_substr(segment, *begin_rdr, ft_strlen(segment) - *begin_rdr), ' ');
+	stockage = malloc(sizeof(char *) * 1);
+	if (!stockage)
+		return (ft_free_split(ends), 0);
+	stockage[0] = NULL;
+	i = 0;
+	j = 0;
+	while (ends[j])
+	{
+		ft_heredoc(ends[j], &stockage, &i);
+		j++;
+	}
+	ft_free_split(ends);
+	command->command_line[cmd_index].redirect.heredoc = stockage;
+	return (i);
 }
 
 char **ft_realloc_tab(char **old, int new_size)
@@ -63,16 +101,17 @@ char **ft_realloc_tab(char **old, int new_size)
 	char **new;
 	int i;
 
-	new = malloc(new_size * sizeof(char *) + 1);
+	new = malloc((new_size + 1)* sizeof(char *));
 	if (!new)
-		return NULL;
+		return (NULL);
 	i = 0;
-	while (old && old[i] && i < new_size)
+	while (old && old[i] && i < new_size - 1)
 	{
 		new[i] = ft_strdup(old[i]);
+		free(old[i]);
 		i++;
 	}
 	new[i] = NULL;
 	free(old);
-	return new;
+	return (new);
 }

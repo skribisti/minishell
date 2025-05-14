@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 17:20:42 by norabino          #+#    #+#             */
-/*   Updated: 2025/05/13 15:56:50 by norabino         ###   ########.fr       */
+/*   Updated: 2025/05/14 18:54:32 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 typedef struct s_redirections
 {
 	char	*ri;
-	char	*heredoc;
+	char	**heredoc;
 	char	*ro;
 	char	*aro;
 }	t_rdr;
@@ -49,6 +49,14 @@ typedef struct s_minishell
 
 
 /* FUNCTIONS */
+char **ft_realloc_tab(char **old, int new_size)
+;
+int	ft_cpt_heredoc(char *segment)
+;
+int	ft_strstrlen(char **str)
+;
+int	ft_parse_heredoc(t_minishell *command, int cmd_index, char *segment, int *begin_rdr, int *end_rdr)
+;
 void	ft_set_spaces(char *segment, int begin, int length);
 int	ft_search(char *str, char c);
 int ft_parse_commandline(t_minishell *command);
