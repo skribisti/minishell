@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 17:20:42 by norabino          #+#    #+#             */
-/*   Updated: 2025/05/14 18:54:32 by norabino         ###   ########.fr       */
+/*   Updated: 2025/05/16 16:46:37 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 typedef struct s_redirections
 {
 	char	*ri;
-	char	**heredoc;
+	char	*heredoc;
 	char	*ro;
 	char	*aro;
 }	t_rdr;
@@ -72,7 +72,7 @@ int	ft_parse_args_quotes(char *line);
 char	*ft_handle_meta_chars(char *prompt, int begin);
 char	*ft_strdup(char *str);
 int	ft_count_seps(char *str);
-char	*ft_strjoin_char(char *s1, char c);
+char	*ft_strjoin(char *s1, char *s2);
 char	*ft_substr(char *s, int start, int len);
 int	verif_quotes(char *str);
 int	ft_strlen(char *str);

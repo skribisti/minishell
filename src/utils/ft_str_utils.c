@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 15:53:10 by norabino          #+#    #+#             */
-/*   Updated: 2025/05/07 15:54:13 by norabino         ###   ########.fr       */
+/*   Updated: 2025/05/16 16:31:39 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,32 +70,31 @@ char	*ft_substr(char *s, int start, int len)
 	return (str);
 }
 
-char	*ft_strjoin_char(char *s1, char c)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*res;
-	size_t	i;
+	int		i;
+	int		j;
 
-	if (!c)
-		return (exit(1), NULL);
-	i = 0;
-	if (s1)
-		res = (char *)malloc((ft_strlen(s1) + 2) * sizeof(char));
-	else
-		res = (char *)malloc(2 * sizeof(char));
+	if (!s1 || !s2)
+		return (NULL);
+	res = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
 	if (!res)
-		return (exit(1), NULL);
-	if (s1)
+		return (NULL);
+	i = 0;
+	while (s1[i])
 	{
-		while (s1[i])
-		{
-			res[i] = s1[i];
-			i++;
-		}
+		res[i] = s1[i];
+		i++;
 	}
-	res[i] = c;
-	res[i + 1] = '\0';
-	if (s1)
-		free(s1);
+	j = 0;
+	while (s2[j])
+	{
+		res[i] = s2[j];
+		i++;
+		j++;
+	}
+	res[i] = 0;
 	return (res);
 }
 

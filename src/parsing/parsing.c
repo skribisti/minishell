@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 12:27:00 by norabino          #+#    #+#             */
-/*   Updated: 2025/05/14 18:59:34 by norabino         ###   ########.fr       */
+/*   Updated: 2025/05/16 16:53:43 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,7 @@ int	ft_print_tokens(t_minishell *command)
         if (command->command_line[i].redirect.ri)
             printf("  RI = %s\n", command->command_line[i].redirect.ri);
         if (command->command_line[i].redirect.heredoc)
-        {
-            j = 0;
-            printf("  HEREDOC :\n");
-	        while (command->command_line[i].redirect.heredoc[j])
-	            {
-		            printf("hd[%d] = %s ; ", i, command->command_line[i].redirect.heredoc[j]);
-		            j++;
-	            }
-	        printf("\n");
-        }
+            printf("  HEREDOC =\n%s\n", command->command_line[i].redirect.heredoc);
         if (command->command_line[i].redirect.ro)
             printf("  RO = %s\n", command->command_line[i].redirect.ro);
         if (command->command_line[i].redirect.aro)

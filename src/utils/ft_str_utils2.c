@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 15:54:39 by norabino          #+#    #+#             */
-/*   Updated: 2025/05/07 18:17:57 by norabino         ###   ########.fr       */
+/*   Updated: 2025/05/16 15:34:16 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ char	*ft_strdup(char *str)
 	char	*tab;
 	int		i;
 
+	if (!str)
+		return (NULL);
 	tab = (char *)malloc(ft_strlen(str) + 1);
 	if (!tab)
 		return (NULL);

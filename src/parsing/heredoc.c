@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 16:43:43 by norabino          #+#    #+#             */
-/*   Updated: 2025/05/14 19:33:29 by norabino         ###   ########.fr       */
+/*   Updated: 2025/05/16 17:00:04 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,46 +22,97 @@ int	ft_strcmp(char *s1, char *s2)
 	return (*(unsigned char *)s1 - *(unsigned char *)s2);
 }
 
-void	ft_heredoc(char *end, char ***stockage, int *i)
+void ft_heredoc(char **ends, char ***stockage, int *i)
 {
-	char *input;
-	
-	while (1)
-	{
-		input = readline("heredoc> ");
-		if (!input)
-			break;
-		if (ft_strcmp(input, end) == 0)
-		{
-			free(input);
-			break;
-		}
-		*stockage = ft_realloc_tab(*stockage, *i + 1);
-		if (!*stockage)
-        {
-            free(input);
+    char *input;
+    int current_end;
+	int	end_count;
+   
+	current_end = 0;
+	end_count = ft_strstrlen(ends);
+    while (ends[current_end])
+    {
+        *i = 0;
+        if (*stockage)
+            ft_free_split(*stockage);
+        *stockage = malloc(sizeof(char *) * 1);
+        if (!*stockage)
             return;
+        (*stockage)[0] = NULL;
+        while (1)
+        {
+            input = readline("heredoc> ");
+            if (!input)
+                return;
+            if (!ft_strcmp(input, ends[current_end]))
+            {
+                free(input);
+                break;
+            }
+			if (current_end == end_count - 1)
+			{
+	            *stockage = ft_realloc_tab(*stockage, *i + 1);
+	            if (!*stockage)
+	            {
+	                free(input);
+	                return;
+	            }
+	            (*stockage)[*i] = ft_strdup(input);
+	            if (!((*stockage)[*i]))
+	            {
+	                free(input);
+	                (*stockage)[*i] = NULL;
+	                return;
+	            }
+	            (*i)++;
+			}
+            free(input);
         }
-		(*stockage)[*i] = ft_strdup(input);
-		printf("stockage[i]");
-		if (!(*stockage[*i]))
-		{
-			free(input);
-			(*stockage)[*i] = NULL;
-			return ;
-		}
-		(*i)++;
-		free(input);
+        current_end++;
+    }
+    if (*stockage)
+        (*stockage)[*i] = NULL;
+}
+
+char	*ft_format_stockage(char **stockage)
+{
+	char	*new;
+	char	*temp;
+	int	i;
+	int	total_size;
+
+	i = 0;
+	total_size = 0;
+	while (stockage[i])
+	{
+		total_size += ft_strlen(stockage[i]) + 1;
+		i++;
 	}
-	if (*stockage)
-		(*stockage)[*i] = NULL;
+	new = ft_strdup("");
+	if (!new)
+		return (NULL);
+	i = 0;
+	while (stockage[i])
+	{
+		temp = ft_strjoin(new, stockage[i]);
+		free(new);
+		if (!temp)
+			return (NULL);
+		new = temp;
+		temp = ft_strjoin(new, "\n");
+		free(new);
+		if (!temp)
+			return (NULL);
+		new  = temp;
+		i++;
+	}
+	return (new);
 }
 
 int	ft_parse_heredoc(t_minishell *command, int cmd_index, char *segment, int *begin_rdr, int *end_rdr)
 {
 	char **stockage;
 	int	i;
-	int	j;
 	int	begin_hd;
 	char **ends;
 
@@ -85,14 +136,9 @@ int	ft_parse_heredoc(t_minishell *command, int cmd_index, char *segment, int *be
 		return (ft_free_split(ends), 0);
 	stockage[0] = NULL;
 	i = 0;
-	j = 0;
-	while (ends[j])
-	{
-		ft_heredoc(ends[j], &stockage, &i);
-		j++;
-	}
+	ft_heredoc(ends, &stockage, &i);
 	ft_free_split(ends);
-	command->command_line[cmd_index].redirect.heredoc = stockage;
+	command->command_line[cmd_index].redirect.heredoc = ft_format_stockage(stockage);
 	return (i);
 }
 
@@ -102,12 +148,23 @@ char **ft_realloc_tab(char **old, int new_size)
 	int i;
 
 	new = malloc((new_size + 1)* sizeof(char *));
-	if (!new)
-		return (NULL);
 	i = 0;
+	if (!new)
+	{
+		if (old)
+			ft_free_split(old);
+		return (NULL);
+	}
 	while (old && old[i] && i < new_size - 1)
 	{
 		new[i] = ft_strdup(old[i]);
+		if (!new[i])
+        {
+            while (i--)
+                free(new[i]);
+            free(new);
+            return (NULL);
+        }
 		free(old[i]);
 		i++;
 	}
