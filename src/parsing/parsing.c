@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 12:27:00 by norabino          #+#    #+#             */
-/*   Updated: 2025/05/16 16:53:43 by norabino         ###   ########.fr       */
+/*   Updated: 2025/05/16 17:04:46 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,22 +47,6 @@ int	ft_print_tokens(t_minishell *command)
 	return (0);
 }
 
-void ft_remove_redirection_tokens(char **tokens)
-{
-    int i = 0;
-    int j = 0;
-
-    while (tokens[i])
-    {
-        if (ft_search(tokens[i], '<') || ft_search(tokens[i], '>'))
-            free(tokens[i]);
-        else
-            tokens[j++] = tokens[i];
-        i++;
-    }
-    tokens[j] = NULL;
-}
-
 int ft_parse_commandsegment(t_minishell *command, int cmd_index, char *segment)
 {
     int space_index;
@@ -82,7 +66,6 @@ int ft_parse_commandsegment(t_minishell *command, int cmd_index, char *segment)
         command->command_line[cmd_index].cmd = ft_strdup(
             ft_substr(segment, start, space_index - start));
         command->command_line[cmd_index].args = ft_split(segment, ' ');
-        //ft_remove_redirection_tokens(command->command_line[cmd_index].args);
     }
     return (0);
 }

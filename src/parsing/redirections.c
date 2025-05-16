@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 18:25:48 by norabino          #+#    #+#             */
-/*   Updated: 2025/05/14 18:31:30 by norabino         ###   ########.fr       */
+/*   Updated: 2025/05/16 17:57:47 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,13 @@ void	ft_redirections(t_minishell *command, char *segment, int redirection, int b
 	if (segment[redirection] == '<' && segment[redirection + 1] != '<')
 		command->command_line[cmd_index].redirect.ri = ft_substr(segment, begin_rdr, end_rdr - begin_rdr);
 	// ro >
-	else if (segment[redirection] == '>' && segment[redirection + 1] != '>')
+	if (segment[redirection] == '>' && segment[redirection + 1] != '>')
 		command->command_line[cmd_index].redirect.ro = ft_substr(segment, begin_rdr, end_rdr - begin_rdr);
 	// aro >>
-	else if (segment[redirection] == '>' && segment[redirection + 1] == '>')
+	if (segment[redirection] == '>' && segment[redirection + 1] == '>')
 		command->command_line[cmd_index].redirect.aro = ft_substr(segment, begin_rdr, end_rdr - begin_rdr);
 	// heredoc <<
-	else if (segment[redirection] == '<' && segment[redirection + 1] == '<')
+	if (segment[redirection] == '<' && segment[redirection + 1] == '<')
 		ft_parse_heredoc(command, cmd_index, segment, &begin_rdr, &end_rdr);
 	ft_set_spaces(segment, redirection, end_rdr - redirection + 1);
 
@@ -74,7 +74,7 @@ void	ft_handle_redirections(t_minishell *command, char *segment, int cmd_index)
 	while (1)
 	{
 		if (!ft_search(segment, '<') && !ft_search(segment, '>'))
-			return ;
+			return;
 		redirection = 0;
 		while (segment[redirection] != '<' && segment[redirection] != '>')
 			redirection++;
