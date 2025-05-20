@@ -3,23 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lucmansa <lucmansa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 16:43:43 by norabino          #+#    #+#             */
-/*   Updated: 2025/05/16 19:09:11 by norabino         ###   ########.fr       */
+/*   Updated: 2025/05/20 15:38:06 by lucmansa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	ft_strcmp(char *s1, char *s2)
+char **ft_realloc_tab(char **old, int new_size)
 {
-	while (*s1 && (*s1 == *s2))
+	char **new;
+	int i;
+
+	new = malloc((new_size + 1)* sizeof(char *));
+	i = 0;
+	if (!new)
 	{
-		s1++;
-		s2++;
+		if (old)
+			ft_free_split(old);
+		return (NULL);
 	}
-	return (*(unsigned char *)s1 - *(unsigned char *)s2);
+	while (old && old[i] && i < new_size - 1)
+	{
+		new[i] = ft_strdup(old[i]);
+		if (!new[i])
+        {
+            while (i--)
+                free(new[i]);
+            free(new);
+            return (NULL);
+        }
+		free(old[i]);
+		i++;
+	}
+	new[i] = NULL;
+	free(old);
+	return (new);
 }
 
 void ft_heredoc(char **ends, char ***stockage, int *i)
@@ -169,35 +190,4 @@ int	ft_parse_heredoc(t_minishell *command, int cmd_index, char *segment, int *be
 	ft_free_split(ends);
 	command->command_line[cmd_index].redirect.heredoc = ft_format_stockage(stockage);
 	return (i);
-}
-
-char **ft_realloc_tab(char **old, int new_size)
-{
-	char **new;
-	int i;
-
-	new = malloc((new_size + 1)* sizeof(char *));
-	i = 0;
-	if (!new)
-	{
-		if (old)
-			ft_free_split(old);
-		return (NULL);
-	}
-	while (old && old[i] && i < new_size - 1)
-	{
-		new[i] = ft_strdup(old[i]);
-		if (!new[i])
-        {
-            while (i--)
-                free(new[i]);
-            free(new);
-            return (NULL);
-        }
-		free(old[i]);
-		i++;
-	}
-	new[i] = NULL;
-	free(old);
-	return (new);
 }

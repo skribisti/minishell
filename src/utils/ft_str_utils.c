@@ -3,26 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_str_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lucmansa <lucmansa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 15:53:10 by norabino          #+#    #+#             */
-/*   Updated: 2025/05/16 16:31:39 by norabino         ###   ########.fr       */
+/*   Updated: 2025/05/14 17:28:01 by lucmansa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	ft_strlen(char *str)
-{
-	int	i;
 
-	i = 0;
-	if (!str)
-		return (0);
-	while (str[i])
-		i++;
-	return (i);
-}
 
 int	verif_quotes(char *str)
 {
@@ -70,32 +60,13 @@ char	*ft_substr(char *s, int start, int len)
 	return (str);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin_char(char *s1, char c)
 {
-	char	*res;
-	int		i;
-	int		j;
+	char tmp[2];
 
-	if (!s1 || !s2)
-		return (NULL);
-	res = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
-	if (!res)
-		return (NULL);
-	i = 0;
-	while (s1[i])
-	{
-		res[i] = s1[i];
-		i++;
-	}
-	j = 0;
-	while (s2[j])
-	{
-		res[i] = s2[j];
-		i++;
-		j++;
-	}
-	res[i] = 0;
-	return (res);
+	tmp[0] = c;
+	tmp[1] = '\0';
+	return ft_strjoin(s1, tmp);
 }
 
 int	ft_count_seps(char *str)
