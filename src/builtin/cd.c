@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lucmansa <lucmansa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 19:09:32 by lucmansa          #+#    #+#             */
-/*   Updated: 2025/05/15 17:06:16 by lucmansa         ###   ########.fr       */
+/*   Updated: 2025/05/20 17:04:17 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ int	ft_cd(char **argv, char **env)
 	char	*path;
 
 	if (!argv)
-		return (0);
-	if (!argv[1])
 	{
 		path = ft_getenv(env, "HOME");
 		if (!path)

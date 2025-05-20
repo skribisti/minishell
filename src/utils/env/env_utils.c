@@ -3,14 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lucmansa <lucmansa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 14:55:08 by lucmansa          #+#    #+#             */
-/*   Updated: 2025/05/15 16:19:39 by lucmansa         ###   ########.fr       */
+/*   Updated: 2025/05/20 17:37:07 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*ft_getenv(char **env, char *var)
+{
+	int	i;
+	int	j;
+
+	i = -1;
+	while (env[++i])
+	{
+		j = 0;
+		while (env[i][j] && env[i][j] != '=')
+		{
+			if (env[i][j] != var[j])
+				break ;
+			j++;
+		}
+		if (env[i][j] == '=' && var[j] == '\0')
+			return (&env[i][j + 1]);
+	}
+	return (NULL);
+}
 
 int	get_env_index(char **env, char *name)
 {

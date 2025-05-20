@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lucmansa <lucmansa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 15:40:28 by lucmansa          #+#    #+#             */
-/*   Updated: 2025/05/20 15:26:01 by lucmansa         ###   ########.fr       */
+/*   Updated: 2025/05/20 17:26:13 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,6 @@ char	*search_command(t_minishell *minishell, int nb_cmd)
 
 void	execute_command(char *cmd, t_minishell *minishell, int nb_cmd)
 {
-	if (execve(cmd,
-		(char * const*)minishell->command_line[nb_cmd].args,
-		minishell->env) == -1)
+	if (execve(cmd, minishell->command_line[nb_cmd].args, minishell->env) == -1)
 		exit(-1);
 }

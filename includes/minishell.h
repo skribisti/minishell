@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lucmansa <lucmansa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 17:20:42 by norabino          #+#    #+#             */
-/*   Updated: 2025/05/20 15:33:23 by lucmansa         ###   ########.fr       */
+/*   Updated: 2025/05/20 19:23:17 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ char **cpy_env(char **env);
 int		get_env_index(char **env, char *name);
 void	rm_var_env(char **env, char *name);
 void	set_var_env(char **env, char *name, char *value);
+void	ft_handle_env_variables(t_minishell *minishell, char **segment);
 
 //command
 void	execute_command(char *cmd, t_minishell *minishell, int nb_cmd);

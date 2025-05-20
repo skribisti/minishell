@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exec_single.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lucmansa <lucmansa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:26:09 by lucmansa          #+#    #+#             */
-/*   Updated: 2025/05/20 14:47:09 by lucmansa         ###   ########.fr       */
+/*   Updated: 2025/05/20 17:32:06 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	redirect_heardoc(t_minishell *minishell, int pipes[2])
+void	redirect_heredoc(t_minishell *minishell, int pipes[2])
 {
 	if (minishell->command_line[0].redirect.heredoc)
 	{
@@ -71,7 +71,7 @@ void exec_single(t_minishell *minishell)
 		pid = fork();
 		if (pid == 0)
 		{
-			redirect_heardoc(minishell, pipes);
+			redirect_heredoc(minishell, pipes);
 			execute_command(cmdchr, minishell, 0);
 		}
 		else
