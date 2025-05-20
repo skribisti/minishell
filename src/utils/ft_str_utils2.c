@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 15:54:39 by norabino          #+#    #+#             */
-/*   Updated: 2025/05/16 15:34:16 by norabino         ###   ########.fr       */
+/*   Updated: 2025/05/16 19:02:20 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,21 +46,6 @@ char	*ft_handle_meta_chars(char *prompt, int begin)
 	if (!string)
 		return (NULL);
 	return (string);
-}
-
-int	ft_parse_args_quotes(char *line)
-{
-	int beg;
-
-	// 34 = double quotes
-	// 39 = single quote
-	beg = 0;
-	while (line[beg] && (line[beg] != 34 && line[beg] != 39))
-		beg++;
-	if (line[beg] != 34 && line[beg] != 39)
-		return (1);
-	//printf("%s", ft_handle_meta_chars(line, beg + 1));
-	return (0);
 }
 
 int	ft_ind_firstspace(char *str)

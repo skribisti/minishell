@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 12:27:00 by norabino          #+#    #+#             */
-/*   Updated: 2025/05/16 17:04:46 by norabino         ###   ########.fr       */
+/*   Updated: 2025/05/16 19:07:34 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int ft_parse_commandsegment(t_minishell *command, int cmd_index, char *segment)
 {
     int space_index;
     int start = 0;
+    char    *temp;
     
     ft_handle_redirections(command, segment, cmd_index);
     while (segment[start] && segment[start] == ' ')
@@ -63,8 +64,9 @@ int ft_parse_commandsegment(t_minishell *command, int cmd_index, char *segment)
         command->command_line[cmd_index].cmd = ft_strdup(segment + start);
     else
     {
-        command->command_line[cmd_index].cmd = ft_strdup(
-            ft_substr(segment, start, space_index - start));
+        temp = ft_substr(segment, start, space_index - start);
+        command->command_line[cmd_index].cmd = ft_strdup(temp);
+        free(temp);
         command->command_line[cmd_index].args = ft_split(segment, ' ');
     }
     return (0);

@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 15:57:23 by norabino          #+#    #+#             */
-/*   Updated: 2025/05/13 16:01:11 by norabino         ###   ########.fr       */
+/*   Updated: 2025/05/16 19:15:51 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ void free_command_lines(t_minishell *command)
 {
 	int	i;
 
+	if (!command)
+		return ;
 	i = 0;
 	while (i < command->nb_cmd)
 	{
@@ -68,4 +70,5 @@ void free_command_lines(t_minishell *command)
 		i++;
 	}
 	free(command->command_line);
+	free(command->line);
 }

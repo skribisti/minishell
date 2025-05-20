@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 16:43:43 by norabino          #+#    #+#             */
-/*   Updated: 2025/05/16 17:53:31 by norabino         ###   ########.fr       */
+/*   Updated: 2025/05/16 19:09:11 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,10 @@ void ft_heredoc(char **ends, char ***stockage, int *i)
     {
         *i = 0;
         if (*stockage)
+		{
             ft_free_split(*stockage);
+			*stockage = NULL;
+		}
         *stockage = malloc(sizeof(char *) * 1);
         if (!*stockage)
             return;
@@ -118,6 +121,7 @@ int	ft_parse_heredoc(t_minishell *command, int cmd_index, char *segment, int *be
 	int	cpt_delimiter;
 	int	j;
 	int	pos;
+	char	*substr;
 
 	begin_hd = 0;
 	while (segment[begin_hd])
@@ -134,7 +138,9 @@ int	ft_parse_heredoc(t_minishell *command, int cmd_index, char *segment, int *be
         	begin_hd++;
 	}
 	pos = *begin_rdr;
-	ends = ft_split(ft_substr(segment, *begin_rdr, ft_strlen(segment) - *begin_rdr), ' ');
+	substr = ft_substr(segment, *begin_rdr, ft_strlen(segment) - *begin_rdr);
+	ends = ft_split(substr, ' ');
+	free(substr);
 	if (!ends)
 		return (0);
 	stockage = malloc(sizeof(char *) * 1);
