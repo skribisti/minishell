@@ -3,25 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exec_single.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lucmansa <lucmansa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:26:09 by lucmansa          #+#    #+#             */
-/*   Updated: 2025/05/20 17:32:06 by norabino         ###   ########.fr       */
+/*   Updated: 2025/05/21 15:51:48 by lucmansa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	redirect_heredoc(t_minishell *minishell, int pipes[2])
-{
-	if (minishell->command_line[0].redirect.heredoc)
-	{
-		dup2(pipes[0], STDIN_FILENO);
-	}
-	close(pipes[0]);
-	close(pipes[1]);
-	return ;
-}
 
 void	default_redirect(t_minishell *minishell, int d_i_o[2], int p[2], int i)
 {
@@ -50,6 +39,7 @@ void	waitandclose(int pipes[2], int	pid, int *ret)
 	close(pipes[0]);
 	close(pipes[1]);
 	waitpid(pid, ret, 0);
+	*ret = WEXITSTATUS(*ret) %256;
 }
 
 void exec_single(t_minishell *minishell)
@@ -71,11 +61,11 @@ void exec_single(t_minishell *minishell)
 		pid = fork();
 		if (pid == 0)
 		{
-			redirect_heredoc(minishell, pipes);
+			redirect_heredoc(minishell, pipes, 0);
 			execute_command(cmdchr, minishell, 0);
 		}
 		else
-			waitandclose(pipes, pid, &ret);
+			waitandclose(pipes, pid, &minishell->rt_val);
 	}
 	default_redirect(NULL, default_, NULL, 1);
 }

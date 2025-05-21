@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 17:41:31 by norabino          #+#    #+#             */
-/*   Updated: 2025/05/21 17:16:22 by norabino         ###   ########.fr       */
+/*   Updated: 2025/05/21 17:20:03 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,11 +97,9 @@ void	ft_handle_env_variables(t_minishell *minishell, char **segment)
 			end++;
 		var_$_size = end - dollar_ind;
 		sub = ft_substr(*segment, dollar_ind + 1, var_$_size - 1);
-		//printf("sub = %s", sub);
 		if (!sub)
 			return ;
 		var = ft_getenv(minishell->env, sub);
-		//printf("\nvar = %s\n", var);
 		free(sub);
 		if (!var)
 		{

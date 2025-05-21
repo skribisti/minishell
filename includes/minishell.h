@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 17:20:42 by norabino          #+#    #+#             */
-/*   Updated: 2025/05/20 19:23:17 by norabino         ###   ########.fr       */
+/*   Updated: 2025/05/21 17:44:28 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <stdlib.h>
 # include <stdio.h>
+# include <stdint.h>
 
 # include <unistd.h>
 #include <sys/wait.h>
@@ -48,6 +49,7 @@ typedef struct s_minishell
 	char	*line;
 	int		nb_cmd;
 	char	**env;
+	int		rt_val;
 	t_command_line	*command_line;
 }	t_minishell;
 
@@ -82,7 +84,7 @@ int	ft_strcmp(char *s1, char *s2);
 void launch_exec(t_minishell *minishell);
 char	*ft_getenv(char **env, char *var);
 
-//heardoc
+//heredoc
 void ft_heredoc(char **ends, char ***stockage, int *i);
 int	ft_parse_heredoc(t_minishell *command, int cmd_index, char *segment, int *begin_rdr, int *end_rdr);
 
@@ -95,7 +97,7 @@ void	ft_set_spaces(char *segment, int begin, int length);
 
 //builtins
 int ft_echo(char **argv);
-void	ft_exit(t_minishell *minishell, int nb_cmd);
+int	ft_exit(t_minishell *minishell, int idx);
 int	ft_cd(char **argv, char **env);
 int	ft_unset(t_minishell *minishell);
 int	ft_export(t_minishell *minishell, char **args);
@@ -116,26 +118,35 @@ int		execute_builtins(char *cmd, t_minishell *minishell, int nb_cmd);
 //redirect
 void	redirect_input(t_minishell *minishell, int idx);
 void	redirect_output(t_minishell *minishell, int idx);
+void	redirect_heredoc(t_minishell *minishell, int pipes[2], int ixd);
 
 //single
 void	redirect_single(t_minishell *minishell);
 void	exec_single(t_minishell *minishell);
+
+//multiple
+void exec_multiple(t_minishell *minishell);
 
 //env
 char **cpy_env(char **env);
 int		get_env_index(char **env, char *name);
 void	rm_var_env(char **env, char *name);
 void	set_var_env(char **env, char *name, char *value);
-void	ft_handle_env_variables(t_minishell *minishell, char **segment);
 
 //command
-void	execute_command(char *cmd, t_minishell *minishell, int nb_cmd);
-char	*search_command(t_minishell *minishell, int nb_cmd) ;
+void	execute_command(char *cmd, t_minishell *minishell, int idx);
+char	*search_command(t_minishell *minishell, int idx) ;
 
 //memory
 void	*ft_realloc(void *ptr, int old_size, int n_size);
 
+//atoi
+int		ft_atoi64(char *text, int64_t *res);
+
 //str_cmp
 int	ft_strncmp(char *s1, char *s2, int n);
+
+//env var
+void	ft_handle_env_variables(t_minishell *minishell, char **segment);
 
 #endif

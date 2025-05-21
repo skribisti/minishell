@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 12:27:00 by norabino          #+#    #+#             */
-/*   Updated: 2025/05/20 19:23:23 by norabino         ###   ########.fr       */
+/*   Updated: 2025/05/21 17:19:42 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,5 @@ int ft_parse_commandline(t_minishell *minishell)
         i++;
         free(cmd_segment);
     }
-    
     return (0);
 }

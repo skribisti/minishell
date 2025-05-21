@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   memory.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lucmansa <lucmansa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 18:50:42 by lucmansa          #+#    #+#             */
-/*   Updated: 2025/05/21 16:16:56 by norabino         ###   ########.fr       */
+/*   Updated: 2025/05/14 18:59:32 by lucmansa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
 
 void	*ft_realloc(void *ptr, int old_size, int n_size)
 {
