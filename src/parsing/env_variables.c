@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 17:41:31 by norabino          #+#    #+#             */
-/*   Updated: 2025/05/20 19:32:04 by norabino         ###   ########.fr       */
+/*   Updated: 2025/05/21 17:16:22 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,18 @@ void	ft_replace_var(char **segment, char *var, int dollar, int var_$_size)
 	var_size = ft_strlen(var);
 	if (var_size > var_$_size)
 	{
-		new = ft_realloc(*segment, ft_strlen(*segment), 
-		ft_strlen(*segment) + (ft_strlen(var) - var_$_size));
+		new = ft_realloc(*segment, ft_strlen(*segment) + 1, 
+		ft_strlen(*segment) + (ft_strlen(var) - var_$_size) + 1);
 		if (!new)
+		{
+			free(*segment);
+			*segment = NULL;
 			return;
-		*segment = new;
+		}
+		*segment = ft_strdup(new);
 		diff = var_size - var_$_size;
 		i = ft_strlen(*segment);
-		while (i >= dollar + var_$_size)
+		while (i >= dollar + var_$_size && i >= 0)
 		{
 			(*segment)[i + diff] = (*segment)[i];
 			i--;
@@ -56,6 +60,16 @@ void	ft_replace_var(char **segment, char *var, int dollar, int var_$_size)
 	}
 }
 
+int	ft_is_valid(char c)
+{
+	if ((c >= 'a' && c <= 'z') ||
+		(c >= 'A' && c <= 'Z') ||
+		(c >= '0' && c <= '9') ||
+		(c == '_'))
+		return (1);
+	return (0);
+}
+
 void	ft_handle_env_variables(t_minishell *minishell, char **segment)
 {
 	int dollar_ind;
@@ -71,18 +85,35 @@ void	ft_handle_env_variables(t_minishell *minishell, char **segment)
 		dollar_ind = 0;
 		while ((*segment)[dollar_ind] && (*segment)[dollar_ind] != '$')
 			dollar_ind++;
+		if ((*segment)[dollar_ind] == '$' && !(*segment)[dollar_ind + 1])
+			break;
 		end = dollar_ind + 1;
-		while ((*segment)[end] && (*segment)[end] != ' ' && (*segment)[end] != '$')
+		if (!ft_is_valid((*segment)[end]))
+		{
+			(*segment)[dollar_ind] = ' ';
+			continue;
+		}
+		while ((*segment)[end] && ft_is_valid((*segment)[end]))
 			end++;
 		var_$_size = end - dollar_ind;
 		sub = ft_substr(*segment, dollar_ind + 1, var_$_size - 1);
+		//printf("sub = %s", sub);
 		if (!sub)
 			return ;
 		var = ft_getenv(minishell->env, sub);
+		//printf("\nvar = %s\n", var);
 		free(sub);
 		if (!var)
-			var = "";
+		{
+			var = ft_strdup("");
+			if (!var)
+				return ;
+		}
 		ft_replace_var(segment, var, dollar_ind, var_$_size);
+		if (!*segment)
+			return ;
+		if (!var || !*var)
+			free(var);
 	}
 	return ;
 }

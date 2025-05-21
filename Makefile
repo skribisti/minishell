@@ -1,6 +1,7 @@
 NAME = minishell
 
-CFLAGS = -Wall -Wextra -Werror -g -Iincludes
+
+CFLAGS = -Wall -Wextra -Werror -g -Iincludes #-fsanitize=address
 SRCS = src/main.c\
 	src/parsing/parsing.c src/parsing/redirections.c src/parsing/heredoc.c src/parsing/env_variables.c \
 	src/execution/exec.c\
