@@ -3,14 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lucmansa <lucmansa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 14:55:08 by lucmansa          #+#    #+#             */
-/*   Updated: 2025/05/20 18:34:33 by lucmansa         ###   ########.fr       */
+/*   Updated: 2025/05/21 18:37:58 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	ft_update_SHLVL(t_minishell *minishell)
+{
+	char *new_value = "1";
+	char *entry = ft_strjoin("SHLVL=", new_value);
+	if (entry)
+	{
+		int idx = get_env_index(minishell->env, "SHLVL");
+		free(minishell->env[idx]);
+		minishell->env[idx] = entry;
+	}
+}
 
 char	*ft_getenv(char **env, char *var)
 {

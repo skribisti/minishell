@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 17:20:42 by norabino          #+#    #+#             */
-/*   Updated: 2025/05/21 17:44:28 by norabino         ###   ########.fr       */
+/*   Updated: 2025/05/27 15:59:14 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,13 @@ typedef struct s_redirections
 {
 	char	*ri;
 	char	*heredoc;
+	char	**hd_delimiters;
 	char	*ro;
 	char	*aro;
 }	t_rdr;
 
 typedef	struct s_command_line
 {
-	char *cmd;
 	char **args;
 	t_rdr	redirect;
 }	t_command_line;
@@ -52,7 +52,6 @@ typedef struct s_minishell
 	int		rt_val;
 	t_command_line	*command_line;
 }	t_minishell;
-
 
 
 /* FUNCTIONS */
@@ -73,6 +72,7 @@ int	ft_count_seps(char *str);
 char	*ft_strjoin_char(char *s1, char c);
 char	*ft_substr(char *s, int start, int len);
 int	verif_quotes(char *str);
+int	ft_in_tab(char **tab, char *str);
 
 char	**ft_split(char const *str, char c);
 
@@ -115,6 +115,7 @@ void 	exec_cmd(t_minishell *minishell);
 
 void	faild_schr(t_minishell *minishell, int i, char *schr);
 int		execute_builtins(char *cmd, t_minishell *minishell, int nb_cmd);
+
 //redirect
 void	redirect_input(t_minishell *minishell, int idx);
 void	redirect_output(t_minishell *minishell, int idx);
@@ -132,6 +133,7 @@ char **cpy_env(char **env);
 int		get_env_index(char **env, char *name);
 void	rm_var_env(char **env, char *name);
 void	set_var_env(char **env, char *name, char *value);
+void	ft_update_SHLVL(t_minishell *minishell);
 
 //command
 void	execute_command(char *cmd, t_minishell *minishell, int idx);
@@ -143,10 +145,13 @@ void	*ft_realloc(void *ptr, int old_size, int n_size);
 //atoi
 int		ft_atoi64(char *text, int64_t *res);
 
+//itoa
+char	*ft_itoa(int n);
+
 //str_cmp
 int	ft_strncmp(char *s1, char *s2, int n);
 
 //env var
-void	ft_handle_env_variables(t_minishell *minishell, char **segment);
+void	ft_handle_env_variables(t_minishell *minishell, char **segment, int cmd_index);
 
 #endif

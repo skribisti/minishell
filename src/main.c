@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 16:01:06 by norabino          #+#    #+#             */
-/*   Updated: 2025/05/20 18:10:40 by norabino         ###   ########.fr       */
+/*   Updated: 2025/05/27 16:05:07 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	ft_minishell(t_minishell minishell)
 {
 	while (1)
 	{
+		//ft_update_SHLVL(&minishell);
 		minishell.line = readline("$> ");
 		add_history(minishell.line);
 		if (!minishell.line)

@@ -28,8 +28,9 @@ all: $(NAME)
 $(NAME): $(OBJS)
 	cc $(CFLAGS) $(OBJS) $(LIBS) -o $(NAME)
 
+
 %.o: %.c minishell.h
-	$(CC) $(CFLAGS) -c $< -o $@
+	cc $(CFLAGS) -c $< -o $@
 
 clean:
 	rm -f $(OBJS)

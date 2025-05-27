@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lucmansa <lucmansa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 15:40:28 by lucmansa          #+#    #+#             */
-/*   Updated: 2025/05/20 18:28:26 by lucmansa         ###   ########.fr       */
+/*   Updated: 2025/05/27 16:02:22 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	faild_schr(t_minishell *minishell, int i, char *schr)
 {
-		printf("Command not found: %s\n", minishell->command_line[i].cmd);
+		printf("Command not found: %s\n", minishell->command_line[i].args[0]);
 		free(schr);
 }
 
@@ -24,15 +24,15 @@ char	*search_command(t_minishell *minishell, int idx)
 	int		i;
 	char	*cmd;
 
-	if (ft_strchr(minishell->command_line[idx].cmd, '/') && access(minishell->command_line[idx].cmd, X_OK) == 0)
-		return (minishell->command_line[idx].cmd);
+	if (ft_strchr(minishell->command_line[idx].args[0], '/') && access(minishell->command_line[idx].args[0], X_OK) == 0)
+		return (minishell->command_line[idx].args[0]);
 	if (is_builtin(minishell, idx))
-		return (minishell->command_line[idx].cmd);
+		return (minishell->command_line[idx].args[0]);
 	path = ft_split(ft_getenv(minishell->env, "PATH"), ':');
 	i = -1;
 	while (path[++i])
 	{
-		cmd = ft_strjoin(ft_strjoin(path[i], "/"), minishell->command_line[idx].cmd);
+		cmd = ft_strjoin(ft_strjoin(path[i], "/"), minishell->command_line[idx].args[0]);
 		if (access(cmd, X_OK) == 0)
 			return (ft_free_split(path), cmd);
 		free(cmd);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_str_utils3.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lucmansa <lucmansa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 15:55:50 by norabino          #+#    #+#             */
-/*   Updated: 2025/05/20 15:30:20 by lucmansa         ###   ########.fr       */
+/*   Updated: 2025/05/21 18:59:34 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,4 +137,46 @@ int	ft_cpt_heredoc(char *segment)
 			i++;
 	}
 	return (cpt);
+}
+
+char	*ft_itoa(int n)
+{
+	char	*str;
+	long	num;
+	int		len;
+	int		sign;
+
+	num = n;
+	len = (n <= 0);
+	sign = (n < 0);
+	if (sign)
+		num = -num;
+	while (n && ++len)
+		n /= 10;
+	str = malloc(sizeof(char) * (len + 1));
+	if (!str)
+		return (0);
+	str[len] = '\0';
+	while (len--)
+	{
+		str[len] = (num % 10) + '0';
+		num /= 10;
+	}
+	if (sign)
+		str[0] = '-';
+	return (str);
+}
+
+int	ft_in_tab(char **tab, char *str)
+{
+	int	i;
+
+	i = 0;
+	while (tab[i])
+	{
+		if (!ft_strcmp(tab[i], str))
+			return (1);
+		i++;
+	}
+	return (0);
 }
