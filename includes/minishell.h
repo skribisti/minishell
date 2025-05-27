@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 17:42:39 by norabino          #+#    #+#             */
-/*   Updated: 2025/05/27 17:42:42 by norabino         ###   ########.fr       */
+/*   Updated: 2025/05/27 17:50:08 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,7 @@ char	*ft_itoa(int n);
 int	ft_strncmp(char *s1, char *s2, int n);
 
 //env var
-void	ft_handle_env_variables(t_minishell *minishell, int cmd_index);
+void	ft_env_ARGS(t_minishell *minishell, char **args);
+void	ft_env_HEREDOC(t_minishell *minishell, char **hd, int cmd_index);
 
 #endif
