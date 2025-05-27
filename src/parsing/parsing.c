@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/28 12:27:00 by norabino          #+#    #+#             */
-/*   Updated: 2025/05/27 15:59:28 by norabino         ###   ########.fr       */
+/*   Created: 2025/05/27 17:41:29 by norabino          #+#    #+#             */
+/*   Updated: 2025/05/27 17:41:31 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,13 @@ int ft_parse_commandsegment(t_minishell *minishell, int cmd_index, char *segment
     int start = 0;
     
     ft_handle_redirections(minishell, segment, cmd_index);
-    ft_handle_env_variables(minishell, &segment, cmd_index);
     while (segment[start] && segment[start] == ' ')
         start++;
     space_index = start;
     while (segment[space_index] && segment[space_index] != ' ')
         space_index++;
     minishell->command_line[cmd_index].args = ft_split(segment, ' ');
+    ft_env_ARGS(minishell, minishell->command_line[cmd_index].args);
     return (0);
 }
 
