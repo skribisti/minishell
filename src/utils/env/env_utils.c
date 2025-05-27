@@ -6,23 +6,11 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 14:55:08 by lucmansa          #+#    #+#             */
-/*   Updated: 2025/05/21 18:37:58 by norabino         ###   ########.fr       */
+/*   Updated: 2025/05/27 19:03:57 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	ft_update_SHLVL(t_minishell *minishell)
-{
-	char *new_value = "1";
-	char *entry = ft_strjoin("SHLVL=", new_value);
-	if (entry)
-	{
-		int idx = get_env_index(minishell->env, "SHLVL");
-		free(minishell->env[idx]);
-		minishell->env[idx] = entry;
-	}
-}
 
 char	*ft_getenv(char **env, char *var)
 {
@@ -58,4 +46,16 @@ int	get_env_index(char **env, char *name)
 			return (i);
 	}
 	return (-1);
+}
+
+void	upd_shlvl(t_minishell *minishell)
+{
+	int	is_i;
+	long int shlvl;
+
+	shlvl = 0;
+	is_i = ft_atoi64(ft_getenv(minishell->env, "SHLVL"), &shlvl);
+	if (is_i == 0)
+		rm_var_env(minishell->env, "SHLVL");
+	minishell->env = set_var_env(minishell->env, "SHLVL", ft_itoa(shlvl + 1));
 }

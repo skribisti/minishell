@@ -5,11 +5,10 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/27 17:42:39 by norabino          #+#    #+#             */
-/*   Updated: 2025/05/27 17:50:08 by norabino         ###   ########.fr       */
+/*   Created: 2025/04/28 17:20:42 by norabino          #+#    #+#             */
+/*   Updated: 2025/05/27 19:03:07 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -24,6 +23,11 @@
 
 # include <readline/readline.h>
 # include <readline/history.h>
+
+// ri <
+// heredoc <<
+// ro >
+// aro >>
 
 typedef struct s_redirections
 {
@@ -50,6 +54,7 @@ typedef struct s_minishell
 }	t_minishell;
 
 
+
 /* FUNCTIONS */
 int	ft_search(char *str, char c);
 int ft_parse_commandline(t_minishell *command);
@@ -68,7 +73,6 @@ int	ft_count_seps(char *str);
 char	*ft_strjoin_char(char *s1, char c);
 char	*ft_substr(char *s, int start, int len);
 int	verif_quotes(char *str);
-int	ft_in_tab(char **tab, char *str);
 
 char	**ft_split(char const *str, char c);
 
@@ -80,7 +84,7 @@ int	ft_strcmp(char *s1, char *s2);
 void launch_exec(t_minishell *minishell);
 char	*ft_getenv(char **env, char *var);
 
-//heredoc
+//heardoc
 void ft_heredoc(char **ends, char ***stockage, int *i);
 int	ft_parse_heredoc(t_minishell *command, int cmd_index, char *segment, int *begin_rdr, int *end_rdr);
 
@@ -93,7 +97,7 @@ void	ft_set_spaces(char *segment, int begin, int length);
 
 //builtins
 int ft_echo(char **argv);
-int	ft_exit(t_minishell *minishell, int idx);
+int	ft_exit(t_minishell *minishell, int idx, char *cmd);
 int	ft_cd(char **argv, char **env);
 int	ft_unset(t_minishell *minishell);
 int	ft_export(t_minishell *minishell, char **args);
@@ -111,7 +115,6 @@ void 	exec_cmd(t_minishell *minishell);
 
 void	faild_schr(t_minishell *minishell, int i, char *schr);
 int		execute_builtins(char *cmd, t_minishell *minishell, int nb_cmd);
-
 //redirect
 void	redirect_input(t_minishell *minishell, int idx);
 void	redirect_output(t_minishell *minishell, int idx);
@@ -128,10 +131,8 @@ void exec_multiple(t_minishell *minishell);
 char **cpy_env(char **env);
 int		get_env_index(char **env, char *name);
 void	rm_var_env(char **env, char *name);
-void	set_var_env(char **env, char *name, char *value);
-void	ft_update_SHLVL(t_minishell *minishell);
-void	ft_env_ARGS(t_minishell *minishell, char **args);
-void	ft_env_HEREDOC(t_minishell *minishell, char **hd, int cmd_index);
+char	**set_var_env(char **env, char *name, char *value);
+void	upd_shlvl(t_minishell *minishell);
 
 //command
 void	execute_command(char *cmd, t_minishell *minishell, int idx);
@@ -142,15 +143,13 @@ void	*ft_realloc(void *ptr, int old_size, int n_size);
 
 //atoi
 int		ft_atoi64(char *text, int64_t *res);
-
-//itoa
 char	*ft_itoa(int n);
 
 //str_cmp
 int	ft_strncmp(char *s1, char *s2, int n);
 
-//env var
 void	ft_env_ARGS(t_minishell *minishell, char **args);
 void	ft_env_HEREDOC(t_minishell *minishell, char **hd, int cmd_index);
+int    ft_in_tab(char **tab, char *str);
 
 #endif

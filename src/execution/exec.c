@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lucmansa <lucmansa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 16:18:08 by lucmansa          #+#    #+#             */
-/*   Updated: 2025/05/27 16:00:47 by norabino         ###   ########.fr       */
+/*   Updated: 2025/05/26 16:58:58 by lucmansa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int execute_builtins(char *cmd, t_minishell *minishell, int nb_cmd)
 	else if (ft_strcmp(cmd, "env") == 0)
 		return(ft_env(minishell->env), 1);
 	else if (ft_strcmp(cmd, "exit") == 0)
-		return (ft_exit(minishell, nb_cmd), -1);
+		return (ft_exit(minishell, nb_cmd, cmd), 0);
 	else if (ft_strcmp(cmd, "echo") == 0)
 		return(ft_echo(args));
 	else
@@ -62,5 +62,4 @@ void exec_cmd(t_minishell *minishell)
 		exec_single(minishell);
 	else
 		exec_multiple(minishell);
-	//printf("return value : %i\n", minishell->rt_val);
 }

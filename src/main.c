@@ -5,47 +5,47 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/27 17:42:09 by norabino          #+#    #+#             */
-/*   Updated: 2025/05/27 17:42:11 by norabino         ###   ########.fr       */
+/*   Created: 2025/05/07 16:01:06 by norabino          #+#    #+#             */
+/*   Updated: 2025/05/27 18:59:07 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../includes/minishell.h"
 
-void	ft_minishell(t_minishell minishell)
+void	ft_minishell(t_minishell command)
 {
 	while (1)
 	{
-		//ft_update_SHLVL(&minishell);
-		minishell.line = readline("$> ");
-		add_history(minishell.line);
-		if (!minishell.line)
+		command.line = readline("$> ");
+		add_history(command.line);
+		if (!command.line)
 			break ;
-		if (*minishell.line)
+		if (*command.line)
 		{
-			minishell.nb_cmd = ft_nbpipes(minishell.line) + 1;
-			if (!verif_quotes(minishell.line))
+			command.nb_cmd = ft_nbpipes(command.line) + 1;
+			if (!verif_quotes(command.line))
 			{
 				printf("Error : Open quotes.\n");
 				continue;
 			}
-			ft_parse_commandline(&minishell);
-			//ft_print_tokens(&minishell);
-			exec_cmd(&minishell);
-			free_command_lines(&minishell);
+			ft_parse_commandline(&command);
+			//ft_print_tokens(&command);
+			exec_cmd(&command);
+			free_command_lines(&command);
 		}
 	}
-	clear_history();	
+	rl_clear_history();
 }
 
 int	main(int argc, char **argv, char **env)
 {
 	t_minishell	minishell;
 
+	printf("Welcome to MINISHELL\n");
 	(void)argc;
 	(void)argv;
 	minishell.env = cpy_env(env);
+	upd_shlvl(&minishell);
 	ft_minishell(minishell);
 	return (0);
 }

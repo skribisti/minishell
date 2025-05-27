@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_single.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lucmansa <lucmansa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:26:09 by lucmansa          #+#    #+#             */
-/*   Updated: 2025/05/21 15:51:48 by lucmansa         ###   ########.fr       */
+/*   Updated: 2025/05/27 19:06:31 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	waitandclose(int pipes[2], int	pid, int *ret)
 	*ret = WEXITSTATUS(*ret) %256;
 }
 
-void exec_single(t_minishell *minishell)
+void	exec_single(t_minishell *minishell)
 {
 	char *cmdchr;
 	int	pid;

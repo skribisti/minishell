@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_mem.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lucmansa <lucmansa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 15:57:23 by norabino          #+#    #+#             */
-/*   Updated: 2025/05/27 15:59:08 by norabino         ###   ########.fr       */
+/*   Updated: 2025/05/27 17:53:23 by lucmansa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void	ft_free_split(char **args)
 {
 	int	i;
 
+	if (args == NULL)
+		return ;
 	i = 0;
 	while (args[i])
 	{
@@ -57,13 +59,13 @@ void free_command_lines(t_minishell *command)
 		if (command->command_line[i].args)
 			ft_free_split(command->command_line[i].args);
 		if (command->command_line[i].redirect.ri)
-            free(command->command_line[i].redirect.ri);
-        if (command->command_line[i].redirect.heredoc)
-            free(command->command_line[i].redirect.heredoc);
-        if (command->command_line[i].redirect.ro)
-            free(command->command_line[i].redirect.ro);
-        if (command->command_line[i].redirect.aro)
-            free(command->command_line[i].redirect.aro);
+			free(command->command_line[i].redirect.ri);
+		if (command->command_line[i].redirect.heredoc)
+			free(command->command_line[i].redirect.heredoc);
+		if (command->command_line[i].redirect.ro)
+			free(command->command_line[i].redirect.ro);
+		if (command->command_line[i].redirect.aro)
+			free(command->command_line[i].redirect.aro);
 		i++;
 	}
 	free(command->command_line);
