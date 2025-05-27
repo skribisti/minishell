@@ -41,6 +41,6 @@ fclean: clean
 re: fclean all
 
 dev: fclean
-	git add *; git commit -m "dev"; git push;
+	git add *; git commit -m "dev"; git push --force;
 
 .PHONY: all clean fclean re dev
