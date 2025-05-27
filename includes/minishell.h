@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 17:20:42 by norabino          #+#    #+#             */
-/*   Updated: 2025/05/27 15:59:14 by norabino         ###   ########.fr       */
+/*   Updated: 2025/05/27 17:12:19 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,6 @@
 
 # include <readline/readline.h>
 # include <readline/history.h>
-
-// ri <
-// heredoc <<
-// ro >
-// aro >>
 
 typedef struct s_redirections
 {
@@ -134,6 +129,8 @@ int		get_env_index(char **env, char *name);
 void	rm_var_env(char **env, char *name);
 void	set_var_env(char **env, char *name, char *value);
 void	ft_update_SHLVL(t_minishell *minishell);
+void	ft_env_ARGS(t_minishell *minishell, char **args);
+void	ft_env_HEREDOC(t_minishell *minishell, char **hd, int cmd_index);
 
 //command
 void	execute_command(char *cmd, t_minishell *minishell, int idx);
@@ -152,6 +149,6 @@ char	*ft_itoa(int n);
 int	ft_strncmp(char *s1, char *s2, int n);
 
 //env var
-void	ft_handle_env_variables(t_minishell *minishell, char **segment, int cmd_index);
+void	ft_handle_env_variables(t_minishell *minishell, int cmd_index);
 
 #endif
