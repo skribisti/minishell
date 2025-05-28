@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_variables.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lucmansa <lucmansa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 17:47:02 by lucmansa          #+#    #+#             */
-/*   Updated: 2025/05/27 17:47:10 by lucmansa         ###   ########.fr       */
+/*   Updated: 2025/05/28 17:58:22 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ void	ft_env_HEREDOC(t_minishell *minishell, char **hd, int cmd_index)
 	i = 0;
 	while (hd[i])
 	{
-		if (ft_search(hd[i], '$') && !ft_in_tab(minishell->command_line[cmd_index].redirect.hd_delimiters, hd[i]))
+		if (ft_search(hd[i], '$') && 
+		!ft_in_tab(minishell->command_line[cmd_index].redirect.hd_delimiters, hd[i]))
 		{
 			hd[i] = ft_replace_var(minishell, hd[i]);
 			if (!hd[i])

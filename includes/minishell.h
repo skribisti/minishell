@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 17:20:42 by norabino          #+#    #+#             */
-/*   Updated: 2025/05/27 19:03:07 by norabino         ###   ########.fr       */
+/*   Updated: 2025/05/28 18:06:12 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	verif_quotes(char *str);
 
 char	**ft_split(char const *str, char c);
 
-void	ft_handle_redirections(t_minishell *command, char *segment, int cmd_index);
+int	ft_handle_redirections(t_minishell *command, char *segment, int cmd_index);
 char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strchr(char *s, int c);
 int	ft_strcmp(char *s1, char *s2);
@@ -84,7 +84,7 @@ int	ft_strcmp(char *s1, char *s2);
 void launch_exec(t_minishell *minishell);
 char	*ft_getenv(char **env, char *var);
 
-//heardoc
+//heredoc
 void ft_heredoc(char **ends, char ***stockage, int *i);
 int	ft_parse_heredoc(t_minishell *command, int cmd_index, char *segment, int *begin_rdr, int *end_rdr);
 

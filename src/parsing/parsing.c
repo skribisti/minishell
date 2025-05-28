@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lucmansa <lucmansa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 17:48:00 by lucmansa          #+#    #+#             */
-/*   Updated: 2025/05/27 17:48:03 by lucmansa         ###   ########.fr       */
+/*   Updated: 2025/05/28 18:29:51 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ int ft_parse_commandsegment(t_minishell *minishell, int cmd_index, char *segment
     int space_index;
     int start = 0;
     
-    ft_handle_redirections(minishell, segment, cmd_index);
+    if (ft_handle_redirections(minishell, segment, cmd_index) == -1)
+        return (0);
     while (segment[start] && segment[start] == ' ')
         start++;
     space_index = start;
@@ -60,7 +61,7 @@ int ft_parse_commandsegment(t_minishell *minishell, int cmd_index, char *segment
         space_index++;
     minishell->command_line[cmd_index].args = ft_split(segment, ' ');
     ft_env_ARGS(minishell, minishell->command_line[cmd_index].args);
-    return (0);
+    return (1);
 }
 
 int ft_parse_commandline(t_minishell *minishell)
@@ -76,10 +77,11 @@ int ft_parse_commandline(t_minishell *minishell)
     {
         pipe_end = ft_nextpipe(minishell->line, pipe_start);
         cmd_segment = ft_substr(minishell->line, pipe_start, (pipe_end - pipe_start));
-        ft_parse_commandsegment(minishell, i, cmd_segment);
+        if (!ft_parse_commandsegment(minishell, i, cmd_segment))
+            return (0);
         pipe_start = pipe_end + 1;
         i++;
         free(cmd_segment);
     }
-    return (0);
+    return (1);
 }

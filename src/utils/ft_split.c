@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 17:34:43 by norabino          #+#    #+#             */
-/*   Updated: 2025/05/27 16:06:03 by norabino         ###   ########.fr       */
+/*   Updated: 2025/05/28 16:54:55 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,18 @@ void	ft_free_dst(char ***dst, int *i)
 	free(*dst);
 }
 
+int	ft_zerosep(char *str, char ***dst)
+{
+	*dst = (char **)malloc(sizeof(char *) * 2);
+	if (!dst)
+		return (0);
+	(*dst)[0] = ft_strndup((char *)str, ft_strlen((char *)str));
+	if (!(*dst)[0])
+		return (free(dst), 0);
+	(*dst)[1] = 0;
+	return (1);
+}
+
 char	**ft_split(char const *str, char c)
 {
 	int		tab[3];
@@ -80,19 +92,7 @@ char	**ft_split(char const *str, char c)
 	if (!str)
 		return (NULL);
 	if (!ft_search((char *)str, c))
-	{
-		dst = (char **)malloc(sizeof(char *) * 2);
-		if (!dst)
-			return (NULL);
-		dst[0] = ft_strndup((char *)str, ft_strlen((char *)str));
-		if (!dst[0])
-        {
-            free(dst);
-            return (NULL);
-        }
-		dst[1] = 0;
-		return (dst);
-	}
+		return (ft_zerosep((char *)str, &dst), dst);
 	dst = (char **)malloc(sizeof(char *) * (ft_countwords(str, (int)c) + 1));
 	if (!dst)
 		return (NULL);
@@ -103,10 +103,7 @@ char	**ft_split(char const *str, char c)
 		ft_build_line((char *)str, &tab[0], &tab[1], &c);
 		dst[tab[2]] = ft_strndup((char *)str + tab[0], tab[1] - tab[0]);
 		if (dst[tab[2]] == NULL)
-		{
-			ft_free_dst(&dst, &tab[2]);
-			return (NULL);
-		}
+			return (ft_free_dst(&dst, &tab[2]), NULL);
 		tab[0] = tab[1];
 		tab[2]++;
 	}

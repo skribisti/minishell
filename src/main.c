@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 16:01:06 by norabino          #+#    #+#             */
-/*   Updated: 2025/05/27 18:59:07 by norabino         ###   ########.fr       */
+/*   Updated: 2025/05/28 18:29:33 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ void	ft_minishell(t_minishell command)
 				printf("Error : Open quotes.\n");
 				continue;
 			}
-			ft_parse_commandline(&command);
+			if (!ft_parse_commandline(&command))
+				continue;
 			//ft_print_tokens(&command);
 			exec_cmd(&command);
 			free_command_lines(&command);
