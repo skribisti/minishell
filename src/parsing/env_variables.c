@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 17:47:02 by lucmansa          #+#    #+#             */
-/*   Updated: 2025/05/28 17:58:22 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/03 15:03:09 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,11 @@ char	*ft_replace_var(t_minishell *minishell, char *str)
 
 	if (str[0] == '$' && !ft_is_valid(str[1]))
 		return (NULL);
+	if (str[0] == '$' && str[1] == '?')
+	{
+		res = ft_itoa(minishell->rt_val);
+		printf("res = %s", res);
+	}
 	if (ft_getenv(minishell->env, str + 1))
 		res = ft_strdup(ft_getenv(minishell->env, str + 1));
 	else
