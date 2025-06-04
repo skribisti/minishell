@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 15:57:23 by norabino          #+#    #+#             */
-/*   Updated: 2025/06/03 15:17:24 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/04 17:01:11 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	ft_free_split(char **args)
 	i = 0;
 	while (args[i])
 	{
-		free (args[i]);
+		free(args[i]);
 		i++;
 	}
 	free(args);

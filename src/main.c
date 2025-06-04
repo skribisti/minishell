@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 16:01:06 by norabino          #+#    #+#             */
-/*   Updated: 2025/06/04 15:33:48 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/04 17:28:33 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	ft_minishell(t_minishell minishell)
 			}
 			if (!ft_parse_line(&minishell))
 				continue;
-			ft_print_tokens(&minishell);
+			//ft_print_tokens(&minishell);
 			exec_cmd(&minishell);
 			free_command_lines(&minishell);
 		}
