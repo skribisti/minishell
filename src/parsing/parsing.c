@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 17:48:00 by lucmansa          #+#    #+#             */
-/*   Updated: 2025/06/04 15:23:50 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/04 15:43:07 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,21 +66,21 @@ int ft_parse_segment(t_minishell *minishell, int cmd_index, char *segment)
 
 int ft_parse_line(t_minishell *minishell)
 {
-    int i = 0;
+    int cmd_idx = 0;
     int pipe_start = 0;
     int pipe_end = 0;
     char *cmd_segment;
 
     minishell->nb_cmd = ft_nbpipes(minishell->line) + 1;
     ft_init(minishell, minishell->nb_cmd);
-    while (i < minishell->nb_cmd)
+    while (cmd_idx < minishell->nb_cmd)
     {
         pipe_end = ft_nextpipe(minishell->line, pipe_start);
         cmd_segment = ft_substr(minishell->line, pipe_start, (pipe_end - pipe_start));
-        if (!ft_parse_segment(minishell, i, cmd_segment))
+        if (!ft_parse_segment(minishell, cmd_idx, cmd_segment))
             return (0);
         pipe_start = pipe_end + 1;
-        i++;
+        cmd_idx++;
         free(cmd_segment);
     }
     return (1);
