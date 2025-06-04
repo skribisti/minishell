@@ -1,13 +1,15 @@
 NAME = minishell
-
+CC = cc
 CFLAGS = -Wall -Wextra -Werror -g3 -Iincludes #-fsanitize=address
 SRCS = src/main.c\
 	src/parsing/parsing.c src/parsing/redirections.c src/parsing/heredoc.c src/parsing/env_variables.c\
 	src/execution/exec.c\
 	src/execution/command.c\
-	src/execution/exec_single.c\
-	src/execution/exec_multiple.c\
+	src/execution/exec_single_utils.c\
+	src/execution/exec_multiple_utils.c\
+	src/execution/exec_multiple_pipes.c\
 	src/execution/redirection.c\
+	src/execution/builtins.c\
 	src/memory/ft_mem.c\
 	src/utils/atoi_error.c\
 	src/utils/ft_split.c\
@@ -27,9 +29,9 @@ LIBS = -lreadline
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	cc $(CFLAGS) $(OBJS) $(LIBS) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBS) -o $(NAME)
 
-%.o: %.c minishell.h
+%.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:

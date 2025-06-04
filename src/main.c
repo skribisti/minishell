@@ -6,35 +6,37 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 16:01:06 by norabino          #+#    #+#             */
-/*   Updated: 2025/05/28 18:29:33 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/04 15:33:48 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	ft_minishell(t_minishell command)
+void	ft_minishell(t_minishell minishell)
 {
 	while (1)
 	{
-		command.line = readline("$> ");
-		add_history(command.line);
-		if (!command.line)
+		minishell.line = readline("$> ");
+		add_history(minishell.line);
+		if (!minishell.line)
 			break ;
-		if (*command.line)
+		if (*minishell.line)
 		{
-			command.nb_cmd = ft_nbpipes(command.line) + 1;
-			if (!verif_quotes(command.line))
+			minishell.nb_cmd = ft_nbpipes(minishell.line) + 1;
+			if (!verif_quotes(minishell.line))
 			{
 				printf("Error : Open quotes.\n");
 				continue;
 			}
-			if (!ft_parse_commandline(&command))
+			if (!ft_parse_line(&minishell))
 				continue;
-			//ft_print_tokens(&command);
-			exec_cmd(&command);
-			free_command_lines(&command);
+			ft_print_tokens(&minishell);
+			exec_cmd(&minishell);
+			free_command_lines(&minishell);
 		}
 	}
+	free(minishell.line);
+	ft_free_split(minishell.env);
 	rl_clear_history();
 }
 

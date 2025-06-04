@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lucmansa <lucmansa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 14:55:08 by lucmansa          #+#    #+#             */
-/*   Updated: 2025/05/27 19:03:57 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/02 16:45:09 by lucmansa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,27 @@ char	*ft_getenv(char **env, char *var)
 	return (NULL);
 }
 
+char	*ft_get_name(char *env)
+{
+	char	*res;
+
+	if (ft_strchr(env, '='))
+		res = ft_strndup(env, (ft_strchr(env, '=') - env));
+	else
+		res = ft_strdup(env);
+	return (res);
+}
+
+char	*ft_get_value(char *env)
+{
+	char	*res;
+
+	res = NULL;
+	if (ft_strchr(env, '='))
+		res = ft_strdup(ft_strchr(env, '=') + 1);
+	return (res);
+}
+
 int	get_env_index(char **env, char *name)
 {
 	int		i;
@@ -50,12 +71,12 @@ int	get_env_index(char **env, char *name)
 
 void	upd_shlvl(t_minishell *minishell)
 {
-	int	is_i;
-	long int shlvl;
+	long int	shlvl;
+	char		*tmp;
 
 	shlvl = 0;
-	is_i = ft_atoi64(ft_getenv(minishell->env, "SHLVL"), &shlvl);
-	if (is_i == 0)
-		rm_var_env(minishell->env, "SHLVL");
-	minishell->env = set_var_env(minishell->env, "SHLVL", ft_itoa(shlvl + 1));
+	ft_atoi64(ft_getenv(minishell->env, "SHLVL"), &shlvl);
+	tmp = ft_itoa(shlvl + 1);
+	minishell->env = set_var_env(minishell->env, "SHLVL", tmp);
+	free(tmp);
 }

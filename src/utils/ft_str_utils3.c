@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_str_utils3.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lucmansa <lucmansa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 15:55:50 by norabino          #+#    #+#             */
-/*   Updated: 2025/05/27 17:52:35 by lucmansa         ###   ########.fr       */
+/*   Updated: 2025/06/03 18:02:36 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,4 +151,17 @@ int    ft_in_tab(char **tab, char *str)
         i++;
     }
     return (0);
+}
+void	ft_print_string(char *str)
+{
+	int	i;
+
+	i = 0;
+	printf("\n\n");
+	while (str[i])
+	{
+		printf("str[%d] = %c\n", i, str[i]);
+		i++;
+	}
+	printf("\n");
 }

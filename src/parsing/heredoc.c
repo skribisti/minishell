@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lucmansa <lucmansa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 17:47:34 by lucmansa          #+#    #+#             */
-/*   Updated: 2025/05/27 17:47:39 by lucmansa         ###   ########.fr       */
+/*   Updated: 2025/06/03 19:28:51 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ int	ft_parse_heredoc(t_minishell *minishell, int cmd_index, char *segment, int *
 	}
 	pos = *begin_rdr;
 	substr = ft_substr(segment, *begin_rdr, ft_strlen(segment) - *begin_rdr);
-	delimiters = ft_split(substr, ' ');
+	delimiters = ft_split_line(substr, ' ');
 	free(substr);
 	if (!delimiters)
 		return (0);

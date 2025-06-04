@@ -6,39 +6,47 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 17:47:02 by lucmansa          #+#    #+#             */
-/*   Updated: 2025/06/03 15:03:09 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/04 15:32:07 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	ft_is_valid(char c)
-{
-	if ((c >= 'a' && c <= 'z') ||
-		(c >= 'A' && c <= 'Z') ||
-		(c >= '0' && c <= '9') ||
-		(c == '_') || (c == '?'))
-		return (1);
-	return (0);
-}
-
 char	*ft_replace_var(t_minishell *minishell, char *str)
 {
 	char *res;
+	int	dollar;
+	int	end_name;
+	char *sub_var;
 
-	if (str[0] == '$' && !ft_is_valid(str[1]))
-		return (NULL);
-	if (str[0] == '$' && str[1] == '?')
+	dollar = 0;
+	while (str[dollar] && str[dollar] != '$')
+		dollar++;
+	if (str[0] == '\'' && str[ft_strlen(str) - 1] == '\'')
 	{
-		res = ft_itoa(minishell->rt_val);
-		printf("res = %s", res);
+		res = ft_substr(str, 1, ft_strlen(str) - 2);
+		return (free(str), res);
 	}
-	if (ft_getenv(minishell->env, str + 1))
-		res = ft_strdup(ft_getenv(minishell->env, str + 1));
+	if (str[0] == '\"' && str[ft_strlen(str) - 1] == '\"')
+	{
+		end_name = dollar;
+		while (str[end_name] && str[end_name] != ' ' && str[end_name] != '\"')
+			end_name++;
+		end_name--;
+		sub_var = ft_substr(str, dollar, dollar - end_name);
+		printf("subvar = %s", sub_var);
+		res = ft_replace_var(minishell, sub_var);
+		return (free(sub_var), res);
+	}
+	if (str[dollar + 1] == '?')
+		res = ft_itoa(minishell->rt_val);
 	else
-		res = ft_strdup("");
-	free(str);
-	return (res);
+	{
+		res = ft_strdup(ft_getenv(minishell->env, str + 1));
+		if (!res)
+			res = ft_strdup("");
+	}
+	return (free(str), res);
 }
 
 void	ft_env_HEREDOC(t_minishell *minishell, char **hd, int cmd_index)
