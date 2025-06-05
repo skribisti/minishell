@@ -108,7 +108,6 @@ int ft_parse_segment(t_minishell *minishell, int cmd_idx, char *segment)
 		if (handle_redir(minishell, segment, cmd_idx, &i) == -1)
 			return (0);
 	}*/
-	//minishell->command_line[cmd_idx].args[j] = ft_replace_var(minishell, get_arg(segment, &i));
 	ft_print_string(ft_replace_var(minishell, get_arg(segment, &i), 1));
 	//minishell->command_line[cmd_idx].args[j] = ft_replace_var(minishell, get_arg(segment, &i), 0);
 	return (1);
