@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lucmansa <lucmansa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 16:01:06 by norabino          #+#    #+#             */
-/*   Updated: 2025/06/05 15:39:45 by lucmansa         ###   ########.fr       */
+/*   Updated: 2025/06/05 18:45:38 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,11 @@ void	ft_minishell(t_minishell minishell)
 		if (*minishell.line)
 		{
 			minishell.nb_cmd = ft_nbpipes(minishell.line) + 1;
-			if (!verif_quotes(minishell.line))
-			{
-				printf("Error : Open quotes.\n");
-				continue;
-			}
-			if (!ft_parse_line(&minishell))
+			if (!verif_quotes(minishell.line) 
+				|| !ft_parse_line(&minishell))
 				continue;
 			//ft_print_tokens(&minishell);
-			exec_cmd(&minishell);
+			//exec_cmd(&minishell);
 			free_command_lines(&minishell);
 		}
 	}

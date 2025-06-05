@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 15:55:50 by norabino          #+#    #+#             */
-/*   Updated: 2025/06/04 17:03:59 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/05 18:20:38 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ char	*ft_strjoin(char *s1, char *s2)
 
 	if (!s1)
 		return (s2);
+	if (!s2)
+		return (s1);
 	len1 = ft_strlen(s1);
 	len2 = ft_strlen(s2);
 	res = malloc(sizeof(char) * (len1 + len2 + 1));
@@ -166,4 +168,18 @@ void	ft_print_string(char *str)
 		i++;
 	}
 	printf("\n");
+}
+
+int	is_redir(char *str)
+{
+	if (str[0] == '<' || str[0] == '>')
+		return (1);
+	return (0);
+}
+
+int	is_quotes(char *str)
+{
+	if (str[0] == '\'' || str[0] == '\"')
+		return (1);
+	return (0);
 }

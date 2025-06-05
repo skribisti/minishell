@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 17:47:34 by lucmansa          #+#    #+#             */
-/*   Updated: 2025/06/03 19:28:51 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/05 19:29:52 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,7 +188,7 @@ int	ft_parse_heredoc(t_minishell *minishell, int cmd_index, char *segment, int *
 	}
 	else
 		*end_rdr = *begin_rdr;
-	ft_env_HEREDOC(minishell, stockage, cmd_index);
+	//ft_env_HEREDOC(minishell, stockage, cmd_index);
 	ft_free_split(delimiters);
 	minishell->command_line[cmd_index].redirect.heredoc = ft_format_stockage(stockage);
 	return (1);

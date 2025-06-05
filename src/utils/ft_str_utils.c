@@ -3,36 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   ft_str_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lucmansa <lucmansa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 15:53:10 by norabino          #+#    #+#             */
-/*   Updated: 2025/05/14 17:28:01 by lucmansa         ###   ########.fr       */
+/*   Updated: 2025/06/05 19:29:53 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-
-
 int	verif_quotes(char *str)
 {
-	int	simple_q;
-	int	double_q;
-	int	i;
+	char	quote;
+	int		i;
 
-	simple_q = 0;
-	double_q = 0;
-	i = 0;
-	while (str[i])
+	i = -1;
+	while (str[++i])
 	{
-		if (str[i] == 34)
-			double_q++;
-		else if (str[i] == 39)
-			simple_q++;
-		i++;	
+		if (str[i] == '\"' || str[i] == '\'')
+		{
+			quote = str[i];
+			while (str[i] && str[i] != quote)
+				i++;
+			if (!str[i])
+				return (printf("Error : Open quotes.\n"), 0);
+		}
 	}
-	if (double_q % 2 != 0 || simple_q % 2 != 0)
-		return (0);
 	return (1);
 }
 

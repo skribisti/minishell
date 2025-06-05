@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lucmansa <lucmansa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 17:20:42 by norabino          #+#    #+#             */
-/*   Updated: 2025/06/05 15:38:55 by lucmansa         ###   ########.fr       */
+/*   Updated: 2025/06/05 19:29:52 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	verif_quotes(char *str);
 
 char	**ft_split_line(char *str, char c);
 
-int	ft_handle_redirections(t_minishell *command, char *segment, int cmd_index);
+int	handle_redir(t_minishell *command, char *segment, int cmd_index, int *i);
 char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strchr(char *s, int c);
 int	ft_strcmp(char *s1, char *s2);
@@ -87,10 +87,16 @@ void	ft_print_string(char *str);
 	
 void launch_exec(t_minishell *minishell);
 
+//str utils
+int	is_redir(char *str);
+int	is_quotes(char *str);
+
 //heredoc
 void ft_heredoc(char **ends, char ***stockage, int *i);
 int	ft_parse_heredoc(t_minishell *command, int cmd_index, char *segment, int *begin_rdr, int *end_rdr);
 
+//quotes
+char *handle_quotes(char *str, int *i);
 
 //parsing
 int	ft_cpt_heredoc(char *segment);
@@ -172,4 +178,7 @@ int    ft_in_tab(char **tab, char *str);
 void	exiting(t_minishell *minishell, int value);
 
 char	*ft_strndup(char *str, int n);
+
+char	*ft_replace_var(t_minishell *minishell, char *str, int start);
+
 #endif
