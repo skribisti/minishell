@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lucmansa <lucmansa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 17:20:42 by norabino          #+#    #+#             */
-/*   Updated: 2025/06/03 19:28:28 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/05 15:38:55 by lucmansa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # include <unistd.h>
 #include <sys/wait.h>
 #include <fcntl.h>
+#include <sys/ioctl.h>
+# include <signal.h>
 
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -124,7 +126,10 @@ void	redirect_heredoc(t_minishell *minishell, int pipes[2], int ixd);
 //single
 void	default_redirect(t_minishell *minishell, int d_i_o[2], int p[2], int i);
 void	exec_single(t_minishell *minishell);
-void	waitandclose(int pipes[2], int pid, int *ret);
+void	waitandclose(int pipes[2], int pid, int *ret);\
+
+//exec
+int		is_executing(int val);
 
 //multiple
 void	exec_multiple(t_minishell *minishell);

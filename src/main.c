@@ -3,14 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lucmansa <lucmansa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 16:01:06 by norabino          #+#    #+#             */
-/*   Updated: 2025/06/04 17:28:33 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/05 15:39:45 by lucmansa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int	g_sig;
+
+void	sig_handler(int signum)
+{
+	g_sig = signum;
+	if (signum == SIGINT)
+	{
+		write(STDERR_FILENO, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		if (!is_executing(0))
+			rl_redisplay();
+	}
+}
 
 void	ft_minishell(t_minishell minishell)
 {
@@ -47,6 +62,8 @@ int	main(int argc, char **argv, char **env)
 	printf("Welcome to MINISHELL\n");
 	(void)argc;
 	(void)argv;
+	if (signal(SIGINT, &sig_handler) == SIG_ERR)
+		exit(1);
 	minishell.env = cpy_env(env);
 	upd_shlvl(&minishell);
 	ft_minishell(minishell);

@@ -3,14 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lucmansa <lucmansa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 16:18:08 by lucmansa          #+#    #+#             */
-/*   Updated: 2025/06/03 15:25:43 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/05 15:38:17 by lucmansa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+int	is_executing(int val)
+{
+	static int	executing = 0;
+
+	if (val == 1)
+		executing = 1;
+	else if (val == 2)
+		executing = 0;
+	return (executing);
+}
 
 void	exec_multiple(t_minishell *minishell)
 {
@@ -67,8 +78,10 @@ void	exec_single(t_minishell *minishell)
 
 void	exec_cmd(t_minishell *minishell)
 {
+	is_executing(1);
 	if (minishell->nb_cmd == 1)
 		exec_single(minishell);
 	else
 		exec_multiple(minishell);
+	is_executing(2);
 }
