@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 17:47:02 by lucmansa          #+#    #+#             */
-/*   Updated: 2025/06/05 19:27:52 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/11 19:33:27 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,26 @@ char	*ft_replace_var(t_minishell *minishell, char *str, int start)
 	res = ft_join_free(res, var);
 	res = ft_join_free(res, &str[start + j]);
 	return (res);
+}
+
+char	*replace_all_var(t_minishell *minishell, char *line)
+{
+	int	i;
+	int	S_quote;
+
+	i = -1;
+	S_quote = 0;
+	while (line[++i])
+	{
+		if (line[i] == '\'' && !S_quote)
+			S_quote = line[i];
+		else if (line[i] == '\'' && S_quote)
+			S_quote = 0;
+		else if (!S_quote && line[i] == '$')
+		{
+			line = ft_replace_var(minishell, line, i);
+			i = -1;
+		}
+	}
+	return (line);
 }

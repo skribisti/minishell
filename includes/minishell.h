@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 17:20:42 by norabino          #+#    #+#             */
-/*   Updated: 2025/06/05 19:31:45 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/11 17:40:24 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,12 @@ typedef struct s_minishell
 
 /* FUNCTIONS */
 int	ft_search(char *str, char c);
-int ft_parse_line(t_minishell *command);
-int ft_parse_segment(t_minishell *command, int cmd_index, char *segment);
-int	ft_print_tokens(t_minishell *command);
-void free_command_lines(t_minishell *command);
+int ft_parse_line(t_minishell *minishell);
+int ft_parse_segment(t_minishell *minishell, int cmd_index, char *segment);
+int	ft_print_tokens(t_minishell *minishell);
+void free_command_lines(t_minishell *minishell);
 void	ft_free_split(char **args);
-int	ft_init(t_minishell *command, int nb_cmds);
+int	ft_init(t_minishell *minishell, int nb_cmds);
 int	ft_nextpipe(char *line, int last_pipe);
 int	ft_nbpipes(char *line);
 int	ft_ind_firstspace(char *str);
@@ -76,12 +76,19 @@ char	*ft_strjoin_char(char *s1, char c);
 char	*ft_substr(char *s, int start, int len);
 int	verif_quotes(char *str);
 
+void	skip_spaces(char *str, int *i);
+
 char	**ft_split_line(char *str, char c);
 
-int	handle_redir(t_minishell *command, char *segment, int cmd_index, int *i);
+char	*ft_join_free(char *s1, char *s2);
+
+char	*handle_redir(t_minishell *minishell, int cmd_idx, char *segment, int *i);
 char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strchr(char *s, int c);
 int	ft_strcmp(char *s1, char *s2);
+
+char	*handle_env_vars(t_minishell *minishell, char *line);
+char	*replace_all_var(t_minishell *minishell, char *line);
 
 void	ft_print_string(char *str);
 	
@@ -93,10 +100,10 @@ int	is_quotes(char *str);
 
 //heredoc
 void ft_heredoc(char **ends, char ***stockage, int *i);
-int	ft_parse_heredoc(t_minishell *command, int cmd_index, char *segment, int *begin_rdr, int *end_rdr);
+int	ft_parse_heredoc(t_minishell *minishell, int cmd_index, char *segment, int *begin_rdr, int *end_rdr);
 
 //quotes
-char *handle_quotes(char *str, int *i);
+char	**remove_quotes(char **args);
 
 //parsing
 int	ft_cpt_heredoc(char *segment);
@@ -180,5 +187,7 @@ void	exiting(t_minishell *minishell, int value);
 char	*ft_strndup(char *str, int n);
 
 char	*ft_replace_var(t_minishell *minishell, char *str, int start);
+
+char 	*get_str(char *seg, int *i);
 
 #endif

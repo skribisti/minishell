@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 15:55:50 by norabino          #+#    #+#             */
-/*   Updated: 2025/06/05 18:20:38 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/11 10:57:21 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,11 @@ void	ft_print_string(char *str)
 int	is_redir(char *str)
 {
 	if (str[0] == '<' || str[0] == '>')
+	{
+		if (str[1] == '<' || str[1] == '>')
+			return (2);
 		return (1);
+	}
 	return (0);
 }
 

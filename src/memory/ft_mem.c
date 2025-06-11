@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 15:57:23 by norabino          #+#    #+#             */
-/*   Updated: 2025/06/04 17:01:11 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/10 16:41:07 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,10 @@ int	ft_init(t_minishell *minishell, int nb_cmds)
 	{
 		minishell->command_line[i].args = NULL;
 		minishell->command_line[i].redirect.ri = NULL;
-		minishell->command_line[i].redirect.heredoc = NULL,
+		minishell->command_line[i].redirect.hd_delimiters = NULL;
 		minishell->command_line[i].redirect.ro = NULL;
 		minishell->command_line[i].redirect.aro = NULL;
+		minishell->command_line[i].redirect.heredoc = NULL;
 		i++;
 	}
 	return (1);
@@ -36,8 +37,6 @@ void	ft_free_split(char **args)
 {
 	int	i;
 
-	if (args == NULL)
-		return ;
 	i = 0;
 	while (args[i])
 	{
