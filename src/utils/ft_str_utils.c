@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 15:53:10 by norabino          #+#    #+#             */
-/*   Updated: 2025/06/05 19:31:50 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/16 15:03:31 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int	verif_quotes(char *str)
 		if (str[i] == '\"' || str[i] == '\'')
 		{
 			quote = str[i];
+			i++;
 			while (str[i] && str[i] != quote)
 				i++;
 			if (!str[i])

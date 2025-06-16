@@ -6,12 +6,13 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 17:47:34 by lucmansa          #+#    #+#             */
-/*   Updated: 2025/06/05 19:31:50 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/13 16:44:28 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+/*
 char **ft_realloc_heredoc(char **old, int new_size)
 {
 	char **new;
@@ -43,9 +44,33 @@ char **ft_realloc_heredoc(char **old, int new_size)
 	return (new);
 }
 
+int	readline_heredoc()
+{
+	char *input;
+
+	while (1)
+	{
+		input = readline("heredoc> ");
+		if (!input)
+			return (0);
+		if (!ft_strcmp(input, delimiters[current_end]))
+			return (free(input), 0);
+		if (current_end == end_count - 1)
+		{
+			*stockage = ft_realloc_heredoc(*stockage, *i + 1);
+			if (!*stockage)
+				return (free(input), 1);
+			(*stockage)[*i] = ft_strdup(input);
+			if (!((*stockage)[*i]))
+				return (free(input), (*stockage)[*i] = NULL, 1);
+			(*i)++;
+		}
+		free(input);
+	}
+}
+
 void ft_heredoc(char **delimiters, char ***stockage, int *i)
 {
-    char *input;
     int current_end;
 	int	end_count;
    
@@ -63,35 +88,8 @@ void ft_heredoc(char **delimiters, char ***stockage, int *i)
         if (!*stockage)
             return;
         (*stockage)[0] = NULL;
-        while (1)
-        {
-            input = readline("heredoc> ");
-            if (!input)
-                return;
-            if (!ft_strcmp(input, delimiters[current_end]))
-            {
-                free(input);
-                break;
-            }
-			if (current_end == end_count - 1)
-			{
-	            *stockage = ft_realloc_heredoc(*stockage, *i + 1);
-	            if (!*stockage)
-	            {
-	                free(input);
-	                return;
-	            }
-	            (*stockage)[*i] = ft_strdup(input);
-	            if (!((*stockage)[*i]))
-	            {
-	                free(input);
-	                (*stockage)[*i] = NULL;
-	                return;
-	            }
-	            (*i)++;
-			}
-            free(input);
-        }
+		if (!readline_heredoc())
+			return;
         current_end++;
     }
     if (*stockage)
@@ -193,3 +191,4 @@ int	ft_parse_heredoc(t_minishell *minishell, int cmd_index, char *segment, int *
 	minishell->command_line[cmd_index].redirect.heredoc = ft_format_stockage(stockage);
 	return (1);
 }
+*/

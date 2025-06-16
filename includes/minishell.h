@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 17:20:42 by norabino          #+#    #+#             */
-/*   Updated: 2025/06/11 17:40:24 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/16 14:47:33 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void ft_heredoc(char **ends, char ***stockage, int *i);
 int	ft_parse_heredoc(t_minishell *minishell, int cmd_index, char *segment, int *begin_rdr, int *end_rdr);
 
 //quotes
-char	**remove_quotes(char **args);
+char	**remove_quotes(char ***args);
 
 //parsing
 int	ft_cpt_heredoc(char *segment);
@@ -132,12 +132,12 @@ void 	exec_cmd(t_minishell *minishell);
 void	faild_schr(t_minishell *minishell, int i, char *schr);
 int		execute_builtins(char *cmd, t_minishell *minishell, int nb_cmd);
 //redirect
-void	redirect_input(t_minishell *minishell, int idx);
-void	redirect_output(t_minishell *minishell, int idx);
+int	redirect_input(t_minishell *minishell, int idx);
+int	redirect_output(t_minishell *minishell, int idx);
 void	redirect_heredoc(t_minishell *minishell, int pipes[2], int ixd);
 
 //single
-void	default_redirect(t_minishell *minishell, int d_i_o[2], int p[2], int i);
+int	default_redirect(t_minishell *minishell, int d_i_o[2], int p[2], int i);
 void	exec_single(t_minishell *minishell);
 void	waitandclose(int pipes[2], int pid, int *ret);\
 
@@ -148,8 +148,8 @@ int		is_executing(int val);
 void	exec_multiple(t_minishell *minishell);
 void	wait_all_pid(int *pid, int nb_cmd, int *ret);
 void	execute_child(t_minishell *minishell, int **pipes, int idx, int *pid);
-void	redirect_multiple(t_minishell *minishell, int **pipes, int idx);
-void	exit_fail_schr(t_minishell *minishell, int **pipes, int *pid);
+//int		redirect_multiple(t_minishell *minishell, int **pipes, int idx);
+//void	exit_fail_schr(t_minishell *minishell, int **pipes, int *pid);
 void	setup_pipes(t_minishell *minishell, int ***pipes);
 void	cleanup_pipes(int **pipes, int nb_pipes);
 void	closepipes(t_minishell *minishell, int **pipes);

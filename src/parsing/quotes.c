@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 17:34:29 by lucmansa          #+#    #+#             */
-/*   Updated: 2025/06/11 19:23:07 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/16 15:37:22 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@ char *rm_quotes(char *str, int *begin_q, int *end_q)
 {
 	char *res;
 
-	res = ft_strndup(str, *begin_q);
-	res = ft_join_free(res, ft_substr(str, *begin_q + 1,
-		(*end_q - *begin_q) - 1));
-	res = ft_join_free(res, ft_substr(str, *end_q + 1,
-		ft_strlen(str) - *end_q + 1));
-	*begin_q = 0;
-	*end_q = 0;
+	res = ft_strndup(str, *(begin_q));
+	res = ft_join_free(res, ft_substr(str, *(begin_q) + 1,
+		(*(end_q) - *(begin_q)) - 1));
+	res = ft_join_free(res, ft_substr(str, *(end_q) + 1,
+		ft_strlen(str) - *(end_q) + 1));
+	*(begin_q) = -1;
+	*(end_q) = -1;
 	return (res);
 }
 
@@ -40,14 +40,14 @@ char	*get_quotes_index(char *str, int *begin_q, int *end_q)
 		if ((str[i] == '\'' || str[i] == '\"') && !quote)
 		{
 			quote = str[i];
-			*begin_q = i;
+			*(begin_q) = i;
 		}
 		else if (str[i] == quote && quote)
 		{
 			quote = 0;
-			*end_q = i;
+			*(end_q) = i;
 		}
-		if (*begin_q && *end_q)
+		if (*(begin_q) != -1 && *(end_q) != -1)
 			res = rm_quotes(str, begin_q, end_q);
 	}
 	if (res)
@@ -55,16 +55,16 @@ char	*get_quotes_index(char *str, int *begin_q, int *end_q)
 	return (str);
 }
 
-char	**remove_quotes(char **args)
+char	**remove_quotes(char ***args)
 {
 	int	i;
 	int	begin_q;
 	int	end_q;
 
 	i = -1;
-	begin_q = 0;
-	end_q = 0;
-	while (args[++i])
-		args[i] = get_quotes_index(args[i], &begin_q, &end_q);
-	return (args);
+	begin_q = -1;
+	end_q = -1;
+	while ((*args)[++i])
+		(*args)[i] = get_quotes_index((*args)[i], &begin_q, &end_q);
+	return (*args);
 }

@@ -80,7 +80,7 @@ char *get_str(char *seg, int *i)
 	return (res);
 }
 
-void	ft_malloc_args(t_minishell *minishell, char *segment)
+void	ft_malloc_args(t_minishell *minishell, char *segment, int cmd_idx)
 {
 	char	*tmp;
 	int		i;
@@ -92,9 +92,10 @@ void	ft_malloc_args(t_minishell *minishell, char *segment)
 	while (tmp)
 	{
 		cpt++;
+		free(tmp);
 		tmp = get_str(segment, &i);
 	}
-	minishell->command_line->args = malloc(sizeof(char *) * (cpt + 1));
+	minishell->command_line[cmd_idx].args = malloc(sizeof(char *) * (cpt + 1));
 }
 
 int ft_parse_segment(t_minishell *minishell, int cmd_idx, char *segment)
@@ -104,18 +105,19 @@ int ft_parse_segment(t_minishell *minishell, int cmd_idx, char *segment)
 
 	i = 0;
 	j = 0;
-	ft_malloc_args(minishell, segment);
-	if (!minishell->command_line->args)
+	ft_malloc_args(minishell, segment, cmd_idx);
+	if (!minishell->command_line[cmd_idx].args)
 		return (-1);
 	while (segment[i])
 	{
 		handle_redir(minishell, cmd_idx, segment, &i);
-		replace_all_var(minishell, segment);
+		segment = replace_all_var(minishell, segment);
 		minishell->command_line[cmd_idx].args[j] = get_str(segment, &i);
 		j++;
 	}
 	minishell->command_line[cmd_idx].args[j] = NULL;
-	minishell->command_line[cmd_idx].args = remove_quotes(minishell->command_line[cmd_idx].args);
+	//ft_print_string((minishell->command_line[cmd_idx].args[1]));
+	minishell->command_line[cmd_idx].args = remove_quotes(&minishell->command_line[cmd_idx].args);
 	return (1);
 }
 

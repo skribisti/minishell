@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lucmansa <lucmansa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 16:18:08 by lucmansa          #+#    #+#             */
-/*   Updated: 2025/06/05 15:38:17 by lucmansa         ###   ########.fr       */
+/*   Updated: 2025/06/13 15:51:40 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ void	exec_single(t_minishell *minishell)
 	if (!cmdchr)
 		return (faild_schr(minishell, 0, cmdchr));
 	pipe(pipes);
-	default_redirect(minishell, default_, pipes, 0);
+	if (default_redirect(minishell, default_, pipes, 0) < 0)
+		return;
 	ret = execute_builtins(cmdchr, minishell, 0);
 	if (ret == -1)
 	{

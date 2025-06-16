@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 17:47:02 by lucmansa          #+#    #+#             */
-/*   Updated: 2025/06/11 19:33:27 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/16 14:44:25 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,10 @@ int	ft_is_var(char c)
 		return (0);
 	return (1);
 }
+	//if (str[start] == '?')
+	//	var = ft_itoa(minishell->rt_val);
+	//else
+	//{
 
 char	*ft_replace_var(t_minishell *minishell, char *str, int start)
 {
@@ -67,7 +71,7 @@ char	*replace_all_var(t_minishell *minishell, char *line)
 		else if (!S_quote && line[i] == '$')
 		{
 			line = ft_replace_var(minishell, line, i);
-			i = -1;
+			i++;
 		}
 	}
 	return (line);
