@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 17:47:34 by lucmansa          #+#    #+#             */
-/*   Updated: 2025/06/17 17:42:55 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/17 17:45:20 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	readline_heredoc(t_minishell *minishell, char *delimiter, int cmd_idx)
 {
-	char *input;
+	char	*input;
 
 	free(minishell->command_line[cmd_idx].redirect.ri);
 	minishell->command_line[cmd_idx].redirect.ri = NULL;
