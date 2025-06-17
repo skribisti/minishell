@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 15:57:23 by norabino          #+#    #+#             */
-/*   Updated: 2025/06/10 16:41:07 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/16 17:30:33 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ int	ft_init(t_minishell *minishell, int nb_cmds)
 	{
 		minishell->command_line[i].args = NULL;
 		minishell->command_line[i].redirect.ri = NULL;
-		minishell->command_line[i].redirect.hd_delimiters = NULL;
 		minishell->command_line[i].redirect.ro = NULL;
 		minishell->command_line[i].redirect.aro = NULL;
 		minishell->command_line[i].redirect.heredoc = NULL;
@@ -73,20 +72,12 @@ void free_command_lines(t_minishell *minishell)
 	i = 0;
 	while (i < minishell->nb_cmd)
 	{
-		if (minishell->command_line[i].args)
-			ft_free_split(minishell->command_line[i].args);
-		if (minishell->command_line[i].redirect.ri)
-			free(minishell->command_line[i].redirect.ri);
-		if (minishell->command_line[i].redirect.heredoc)
-			free(minishell->command_line[i].redirect.heredoc);
-		if (minishell->command_line[i].redirect.ro)
-			free(minishell->command_line[i].redirect.ro);
-		if (minishell->command_line[i].redirect.aro)
-			free(minishell->command_line[i].redirect.aro);
+		ft_free_split(minishell->command_line[i].args);
+		free(minishell->command_line[i].redirect.ri);
+		free(minishell->command_line[i].redirect.ro);
+		free(minishell->command_line[i].redirect.aro);
 		i++;
 	}
-	if (minishell->command_line)
-		free(minishell->command_line);
-	if (minishell->line)
+	free(minishell->command_line);
 	free(minishell->line);
 }

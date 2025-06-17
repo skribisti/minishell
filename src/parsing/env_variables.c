@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 17:47:02 by lucmansa          #+#    #+#             */
-/*   Updated: 2025/06/16 14:44:25 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/17 14:01:24 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,24 +55,40 @@ char	*ft_replace_var(t_minishell *minishell, char *str, int start)
 	return (res);
 }
 
-char	*replace_all_var(t_minishell *minishell, char *line)
+char	*check_Squotes_heredoc(t_minishell *minishell, char *line, int *i,  int checks[2])
 {
-	int	i;
-	int	S_quote;
-
-	i = -1;
-	S_quote = 0;
-	while (line[++i])
+	while (line[++(*i)])
 	{
-		if (line[i] == '\'' && !S_quote)
-			S_quote = line[i];
-		else if (line[i] == '\'' && S_quote)
-			S_quote = 0;
-		else if (!S_quote && line[i] == '$')
+		if (line[*i] == '\'' && !checks[0])
+			checks[0] = line[*i];
+		else if (line[*i] == '\'' && checks[0])
+			checks[0] = 0;
+		if (line[*i] == '<' && line[(*i) + 1] == '<' && !checks[1])
 		{
-			line = ft_replace_var(minishell, line, i);
-			i++;
+			checks[1] = 1;
+			(*i) += 2;
+			skip_spaces(line, i);
+			continue;
+		}
+		else if (checks[1] && line[*i] == '\n')
+			checks[1] = 0;
+		else if (!checks[0] && !checks[1] && line[*i] == '$')
+		{
+			line = ft_replace_var(minishell, line, *i);
+			(*i)++;
 		}
 	}
+	return (line);
+}
+
+char	*replace_all_var(t_minishell *minishell, char *line)
+{
+	int		i;
+	int		checks[2];
+
+	i = -1;
+	checks[0] = 0;
+	checks[1] = 0;
+	line = check_Squotes_heredoc(minishell, line, &i, checks);
 	return (line);
 }

@@ -36,7 +36,7 @@ int	ft_print_tokens(t_minishell *minishell)
 		if (minishell->command_line[i].redirect.ri)
 			printf("  RI = %s\n", minishell->command_line[i].redirect.ri);
 		if (minishell->command_line[i].redirect.heredoc)
-			printf("  HEREDOC =\n%s\n", minishell->command_line[i].redirect.heredoc);
+			printf("  HEREDOC =%s\n", minishell->command_line[i].redirect.heredoc);
 		if (minishell->command_line[i].redirect.ro)
 			printf("  RO = %s\n", minishell->command_line[i].redirect.ro);
 		if (minishell->command_line[i].redirect.aro)
@@ -50,7 +50,7 @@ int	ft_print_tokens(t_minishell *minishell)
 
 void	skip_spaces(char *str, int *i)
 {
-	while (str[*i] && str[*i] == ' ')
+	while (str[*i] == ' ')
 		(*i)++;
 }
 
@@ -61,8 +61,8 @@ char *get_str(char *seg, int *i)
 	char	quote;
 
 	skip_spaces(seg, i);
-	if (!seg[*i] || seg[*i] == '\0')
-        return (NULL);
+	if (!seg[*i])
+		return (NULL);
 	size = 0;
 	quote = 0;
 	while (seg[size + (*i)])
@@ -95,7 +95,8 @@ void	ft_malloc_args(t_minishell *minishell, char *segment, int cmd_idx)
 		free(tmp);
 		tmp = get_str(segment, &i);
 	}
-	minishell->command_line[cmd_idx].args = malloc(sizeof(char *) * (cpt + 1));
+	//printf("cpt = %d\n", cpt);
+	minishell->command_line[cmd_idx].args = malloc(sizeof(char *) * (cpt + 2));
 }
 
 int ft_parse_segment(t_minishell *minishell, int cmd_idx, char *segment)
@@ -105,19 +106,16 @@ int ft_parse_segment(t_minishell *minishell, int cmd_idx, char *segment)
 
 	i = 0;
 	j = 0;
+	segment = replace_all_var(minishell, segment);
+	segment = handle_redir(minishell, cmd_idx, segment);
 	ft_malloc_args(minishell, segment, cmd_idx);
-	if (!minishell->command_line[cmd_idx].args)
-		return (-1);
 	while (segment[i])
 	{
-		handle_redir(minishell, cmd_idx, segment, &i);
-		segment = replace_all_var(minishell, segment);
 		minishell->command_line[cmd_idx].args[j] = get_str(segment, &i);
 		j++;
 	}
 	minishell->command_line[cmd_idx].args[j] = NULL;
-	//ft_print_string((minishell->command_line[cmd_idx].args[1]));
-	minishell->command_line[cmd_idx].args = remove_quotes(&minishell->command_line[cmd_idx].args);
+	minishell->command_line[cmd_idx].args = remove_quotes(minishell->command_line[cmd_idx].args);
 	return (1);
 }
 

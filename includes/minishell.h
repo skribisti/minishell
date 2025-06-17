@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 17:20:42 by norabino          #+#    #+#             */
-/*   Updated: 2025/06/16 14:47:33 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/16 19:08:33 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ typedef struct s_redirections
 {
 	char	*ri;
 	char	*heredoc;
-	char	**hd_delimiters;
 	char	*ro;
 	char	*aro;
 }	t_rdr;
@@ -82,7 +81,7 @@ char	**ft_split_line(char *str, char c);
 
 char	*ft_join_free(char *s1, char *s2);
 
-char	*handle_redir(t_minishell *minishell, int cmd_idx, char *segment, int *i);
+char *	handle_redir(t_minishell *minishell, int cmd_idx, char *segment);
 char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strchr(char *s, int c);
 int	ft_strcmp(char *s1, char *s2);
@@ -94,6 +93,8 @@ void	ft_print_string(char *str);
 	
 void launch_exec(t_minishell *minishell);
 
+int	readline_heredoc(t_minishell *minishell, char *delimiter, int cmd_idx);
+
 //str utils
 int	is_redir(char *str);
 int	is_quotes(char *str);
@@ -103,7 +104,7 @@ void ft_heredoc(char **ends, char ***stockage, int *i);
 int	ft_parse_heredoc(t_minishell *minishell, int cmd_index, char *segment, int *begin_rdr, int *end_rdr);
 
 //quotes
-char	**remove_quotes(char ***args);
+char	**remove_quotes(char **args);
 
 //parsing
 int	ft_cpt_heredoc(char *segment);

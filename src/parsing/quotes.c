@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 17:34:29 by lucmansa          #+#    #+#             */
-/*   Updated: 2025/06/16 15:37:22 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/16 19:27:37 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,15 @@
 char *rm_quotes(char *str, int *begin_q, int *end_q)
 {
 	char *res;
+	char	*tmp;
 
 	res = ft_strndup(str, *(begin_q));
-	res = ft_join_free(res, ft_substr(str, *(begin_q) + 1,
-		(*(end_q) - *(begin_q)) - 1));
-	res = ft_join_free(res, ft_substr(str, *(end_q) + 1,
-		ft_strlen(str) - *(end_q) + 1));
+	tmp = ft_substr(str, *(begin_q) + 1, (*(end_q) - *(begin_q)) - 1);
+	res = ft_join_free(res, tmp);
+	free(tmp);
+	tmp = ft_substr(str, *(end_q) + 1, ft_strlen(str) - *(end_q) + 1);
+	res = ft_join_free(res, tmp);
+	free(tmp);
 	*(begin_q) = -1;
 	*(end_q) = -1;
 	return (res);
@@ -55,7 +58,7 @@ char	*get_quotes_index(char *str, int *begin_q, int *end_q)
 	return (str);
 }
 
-char	**remove_quotes(char ***args)
+char	**remove_quotes(char **args)
 {
 	int	i;
 	int	begin_q;
@@ -64,7 +67,7 @@ char	**remove_quotes(char ***args)
 	i = -1;
 	begin_q = -1;
 	end_q = -1;
-	while ((*args)[++i])
-		(*args)[i] = get_quotes_index((*args)[i], &begin_q, &end_q);
-	return (*args);
+	while (args[++i])
+		args[i] = get_quotes_index(args[i], &begin_q, &end_q);
+	return (args);
 }

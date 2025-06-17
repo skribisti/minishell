@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:29:36 by lucmansa          #+#    #+#             */
-/*   Updated: 2025/06/13 16:09:08 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/16 17:25:16 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,9 @@ void	redirect_heredoc(t_minishell *minishell, int pipes[2], int ixd)
 {
 	if (minishell->command_line[ixd].redirect.heredoc)
 	{
-		close(dup(STDIN_FILENO));
 		dup2(pipes[0], STDIN_FILENO);
+		close(pipes[0]);
+		close(pipes[1]);
 	}
 	return ;
 }
