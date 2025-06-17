@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 18:43:17 by lucmansa          #+#    #+#             */
-/*   Updated: 2025/06/16 18:43:08 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/17 17:29:49 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,23 +26,31 @@ static int	ft_which_redir(char *redir, int *i)
 }
 
 
-static int	set_redir(t_minishell *minishell, char *redir, int cmd_index, int which_redir)
+static void	set_redir(t_minishell *minishell, char *redir, int cmd_index, int which_redir)
 {
 	if (which_redir == 1)
+	{
 		free(minishell->command_line[cmd_index].redirect.ri);
-	if (which_redir == 1)
 		minishell->command_line[cmd_index].redirect.ri = redir;
+		free(minishell->command_line[cmd_index].redirect.heredoc);
+		minishell->command_line[cmd_index].redirect.heredoc = NULL;
+	}
 	if (which_redir == 2)
+	{
 		free(minishell->command_line[cmd_index].redirect.ro);
-	if (which_redir == 2)
 		minishell->command_line[cmd_index].redirect.ro = redir;
-	if (which_redir == 3)
 		free(minishell->command_line[cmd_index].redirect.aro);
+		minishell->command_line[cmd_index].redirect.aro = NULL;
+	}	
 	if (which_redir == 3)
+	{
+		free(minishell->command_line[cmd_index].redirect.aro);
 		minishell->command_line[cmd_index].redirect.aro = redir;
+		free(minishell->command_line[cmd_index].redirect.ro);
+		minishell->command_line[cmd_index].redirect.ro = NULL;
+	}
 	if (which_redir == 4)
 		readline_heredoc(minishell, redir, cmd_index);
-	return (1);
 }
 
 char *handle_redir(t_minishell *minishell, int cmd_idx, char *segment)
@@ -65,6 +73,8 @@ char *handle_redir(t_minishell *minishell, int cmd_idx, char *segment)
 			set_redir(minishell, redir, cmd_idx, which_redir);
 			ft_set_spaces(segment, start[0], is_redir(&segment[start[0]]));
 			ft_set_spaces(segment, start[1], ft_strlen(redir));
+			if (which_redir == 4)
+				free(redir);
 		}
 		else
 			i++;

@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 16:18:08 by lucmansa          #+#    #+#             */
-/*   Updated: 2025/06/16 17:23:28 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/17 17:39:26 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	is_executing(int val)
 	return (executing);
 }
 
-void	exec_multiple(t_minishell *minishell)
+static void	exec_multiple(t_minishell *minishell)
 {
 	int	i;
 	int	*pid;
@@ -48,7 +48,7 @@ void	exec_multiple(t_minishell *minishell)
 	cleanup_pipes(pipes, minishell->nb_cmd);
 }
 
-void	exec_single(t_minishell *minishell)
+static int	exec_single(t_minishell *minishell)
 {
 	char	*cmdchr;
 	int		pid;
@@ -58,10 +58,10 @@ void	exec_single(t_minishell *minishell)
 
 	cmdchr = search_command(minishell, 0);
 	if (!cmdchr)
-		return (faild_schr(minishell, 0, cmdchr));
+		return (faild_schr(minishell, 0, cmdchr), 0);
 	pipe(pipes);
 	if (default_redirect(minishell, default_, pipes, 0) < 0)
-		return;
+		return (default_redirect(NULL, default_, NULL, 1));
 	ret = execute_builtins(cmdchr, minishell, 0);
 	if (ret == -1)
 	{
@@ -74,7 +74,7 @@ void	exec_single(t_minishell *minishell)
 		else
 			waitandclose(pipes, pid, &minishell->rt_val);
 	}
-	default_redirect(NULL, default_, NULL, 1);
+	return (default_redirect(NULL, default_, NULL, 1), 0);
 }
 
 void	exec_cmd(t_minishell *minishell)

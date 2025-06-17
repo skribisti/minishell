@@ -126,36 +126,6 @@ int	is_char_invalid(char c)
 	return (0);
 }
 
-void	handle_parse_errors(int error)
-{
-	if (error == -1)
-		printf("minishell: syntax error near unexpected token '|'\n");
-	else if (error == 0)
-		printf("minishell: syntax error near unexpected token 'newline'\n");
-}
-
-int	is_line_valid(char *str, int nb_cmd)
-{
-	int	i;
-
-	i = 0;
-	skip_spaces(str, &i);
-	if (nb_cmd >= 2 && str[i] == '|')
-		return (-1);
-	while (str[i])
-	{
-		if (is_redir(&str[i]))
-		{
-			i += is_redir(&str[i]);
-			skip_spaces(str, &i);
-			if (!str[i])
-				return (0);
-		}
-		i++;
-	}
-	return (1);
-}
-
 int ft_parse_line(t_minishell *minishell)
 {
 	int cmd_idx;
@@ -167,8 +137,8 @@ int ft_parse_line(t_minishell *minishell)
 	pipe_start = 0;
 	pipe_end = 0;
 	ft_init(minishell, minishell->nb_cmd);
-	if (is_line_valid(minishell->line, minishell->nb_cmd) != 1)
-		return (handle_parse_errors(is_line_valid(minishell->line, minishell->nb_cmd)), 0);
+	if (!is_line_valid(minishell->line, minishell->nb_cmd))
+		return (0);
 	while (cmd_idx < minishell->nb_cmd)
 	{
 		pipe_end = ft_nextpipe(minishell->line, pipe_start);

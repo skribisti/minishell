@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 15:57:23 by norabino          #+#    #+#             */
-/*   Updated: 2025/06/16 17:30:33 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/17 16:55:09 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	ft_init(t_minishell *minishell, int nb_cmds)
 		minishell->command_line[i].redirect.ro = NULL;
 		minishell->command_line[i].redirect.aro = NULL;
 		minishell->command_line[i].redirect.heredoc = NULL;
+		minishell->rt_val = 0;
 		i++;
 	}
 	return (1);
@@ -76,8 +77,19 @@ void free_command_lines(t_minishell *minishell)
 		free(minishell->command_line[i].redirect.ri);
 		free(minishell->command_line[i].redirect.ro);
 		free(minishell->command_line[i].redirect.aro);
+		free(minishell->command_line[i].redirect.heredoc);
 		i++;
 	}
 	free(minishell->command_line);
 	free(minishell->line);
+}
+
+char	*ft_join_free(char *s1, char *s2)
+{
+	char *res;
+	
+	res = ft_strjoin(s1, s2);
+	if (s2)
+		free(s1);
+	return (res);
 }

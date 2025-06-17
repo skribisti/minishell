@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 17:20:42 by norabino          #+#    #+#             */
-/*   Updated: 2025/06/16 19:08:33 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/17 17:40:00 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ char	*handle_env_vars(t_minishell *minishell, char *line);
 char	*replace_all_var(t_minishell *minishell, char *line);
 
 void	ft_print_string(char *str);
+
+int	is_line_valid(char *str, int nb_cmd);
 	
 void launch_exec(t_minishell *minishell);
 
@@ -139,14 +141,12 @@ void	redirect_heredoc(t_minishell *minishell, int pipes[2], int ixd);
 
 //single
 int	default_redirect(t_minishell *minishell, int d_i_o[2], int p[2], int i);
-void	exec_single(t_minishell *minishell);
 void	waitandclose(int pipes[2], int pid, int *ret);\
 
 //exec
 int		is_executing(int val);
 
 //multiple
-void	exec_multiple(t_minishell *minishell);
 void	wait_all_pid(int *pid, int nb_cmd, int *ret);
 void	execute_child(t_minishell *minishell, int **pipes, int idx, int *pid);
 //int		redirect_multiple(t_minishell *minishell, int **pipes, int idx);
