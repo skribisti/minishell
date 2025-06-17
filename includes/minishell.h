@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 17:20:42 by norabino          #+#    #+#             */
-/*   Updated: 2025/06/17 17:40:00 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/17 17:42:40 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,8 +149,6 @@ int		is_executing(int val);
 //multiple
 void	wait_all_pid(int *pid, int nb_cmd, int *ret);
 void	execute_child(t_minishell *minishell, int **pipes, int idx, int *pid);
-//int		redirect_multiple(t_minishell *minishell, int **pipes, int idx);
-//void	exit_fail_schr(t_minishell *minishell, int **pipes, int *pid);
 void	setup_pipes(t_minishell *minishell, int ***pipes);
 void	cleanup_pipes(int **pipes, int nb_pipes);
 void	closepipes(t_minishell *minishell, int **pipes);
