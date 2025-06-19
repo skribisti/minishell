@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 15:53:10 by norabino          #+#    #+#             */
-/*   Updated: 2025/06/16 15:03:31 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/19 15:08:56 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,15 +57,6 @@ char	*ft_substr(char *s, int start, int len)
 	return (str);
 }
 
-char	*ft_strjoin_char(char *s1, char c)
-{
-	char tmp[2];
-
-	tmp[0] = c;
-	tmp[1] = '\0';
-	return ft_strjoin(s1, tmp);
-}
-
 int	ft_count_seps(char *str)
 {
 	int	i;
@@ -80,4 +71,22 @@ int	ft_count_seps(char *str)
 		i++;
 	}
 	return (nb);
+}
+
+int	is_redir(char *str)
+{
+	if (str[0] == '<' || str[0] == '>')
+	{
+		if (str[1] == '<' || str[1] == '>')
+			return (2);
+		return (1);
+	}
+	return (0);
+}
+
+int	is_quotes(char *str)
+{
+	if (str[0] == '\'' || str[0] == '\"')
+		return (1);
+	return (0);
 }

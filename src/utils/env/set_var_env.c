@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   set_var_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lucmansa <lucmansa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 20:13:32 by lucmansa          #+#    #+#             */
-/*   Updated: 2025/06/02 16:44:23 by lucmansa         ###   ########.fr       */
+/*   Updated: 2025/06/19 15:23:13 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char *set_new_var(char *name, char *value)
+static char	*set_new_var(char *name, char *value)
 {
 	char	*var;
 	char	*tmp;
@@ -28,7 +28,7 @@ static char *set_new_var(char *name, char *value)
 	return (var);
 }
 
-char **set_var_env(char **env, char *name, char *value)
+char	**set_var_env(char **env, char *name, char *value)
 {
 	int		idx;
 	char	*new_var;
@@ -46,11 +46,10 @@ char **set_var_env(char **env, char *name, char *value)
 	else
 	{
 		size = tab_len(env);
-		env = ft_realloc(env, sizeof(char *) * size, sizeof(char *) * (size + 2));
+		env = ft_realloc(env, sizeof(char *) * size,
+				sizeof(char *) * (size + 2));
 		env[size] = new_var;
 		env[size + 1] = NULL;
 	}
 	return (env);
 }
-
-		

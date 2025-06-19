@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 16:01:06 by norabino          #+#    #+#             */
-/*   Updated: 2025/06/17 13:57:08 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/19 15:10:07 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,7 @@ void	ft_minishell(t_minishell minishell)
 			minishell.nb_cmd = ft_nbpipes(minishell.line) + 1;
 			if (!verif_quotes(minishell.line)
 				|| !ft_parse_line(&minishell))
-				continue;
-			//ft_print_tokens(&minishell);
+				continue ;
 			exec_cmd(&minishell);
 			free_command_lines(&minishell);
 		}

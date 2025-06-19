@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 17:47:02 by lucmansa          #+#    #+#             */
-/*   Updated: 2025/06/17 16:48:51 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/19 15:18:52 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 int	ft_is_var(char c)
 {
 	if (!(('A' <= c && c <= 'Z')
-		|| ('a' <= c && c <= 'z')
-		|| ('0' <= c && c <= '9')
-		|| c == '_'))
+			|| ('a' <= c && c <= 'z')
+			|| ('0' <= c && c <= '9')
+			|| c == '_'))
 		return (0);
 	return (1);
 }
@@ -50,22 +50,22 @@ char	*ft_replace_var(t_minishell *minishell, char *str, int start)
 char	*replace_all_var(t_minishell *minishell, char *line)
 {
 	int		i;
-	int		S_quotes;
+	int		squotes;
 
 	i = 0;
-	S_quotes = 0;
+	squotes = 0;
 	while (line[i])
 	{
-		if (line[i] == '\'' && !S_quotes)
-			S_quotes = line[i];
-		else if (line[i] == '\'' && S_quotes)
-			S_quotes = 0;
-		if (line[i] == '<' && line[i + 1] == '<' && !S_quotes)
+		if (line[i] == '\'' && !squotes)
+			squotes = line[i];
+		else if (line[i] == '\'' && squotes)
+			squotes = 0;
+		if (line[i] == '<' && line[i + 1] == '<' && !squotes)
 		{
 			i += 2;
 			free(get_str(line, &i));
 		}
-		else if (!S_quotes && line[i] == '$')
+		else if (!squotes && line[i] == '$')
 			line = ft_replace_var(minishell, line, i);
 		else
 			i++;

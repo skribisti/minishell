@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 17:34:43 by norabino          #+#    #+#             */
-/*   Updated: 2025/06/04 15:26:52 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/19 15:31:02 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,29 +35,30 @@ char	*ft_strndup(char *str, int n)
 	return (tab);
 }
 
-void	ft_check_quotes(char c, int *in_Squotes, int *in_Dquotes)
+void	ft_check_quotes(char c, int *in_squotes, int *in_dquotes)
 {
-	if (c == '\'' && *in_Dquotes == -1)
-		*in_Squotes = - (*in_Squotes);
-	if (c == '\"' && *in_Squotes == -1)
-		*in_Dquotes = - (*in_Dquotes);
+	if (c == '\'' && *in_dquotes == -1)
+		*in_squotes = - (*in_squotes);
+	if (c == '\"' && *in_squotes == -1)
+		*in_dquotes = - (*in_dquotes);
 }
+
 int	ft_countwords(char *str, char c)
 {
 	int	i;
 	int	j;
 	int	in_charset;
-	int	in_Squotes;
-	int	in_Dquotes;
+	int	in_squotes;
+	int	in_dquotes;
 
 	i = 0;
 	j = 0;
 	in_charset = 0;
-	in_Squotes = -1;
-	in_Dquotes = -1;
+	in_squotes = -1;
+	in_dquotes = -1;
 	while (str[i])
 	{
-		ft_check_quotes(str[i], &in_Squotes, &in_Dquotes);
+		ft_check_quotes(str[i], &in_squotes, &in_dquotes);
 		if (str[i] != c && in_charset != 1)
 		{
 			in_charset = 1;
@@ -65,7 +66,7 @@ int	ft_countwords(char *str, char c)
 		}
 		if (str[i] == c && in_charset == 1)
 		{
-			if (in_Dquotes == -1 && in_Squotes == -1)
+			if (in_dquotes == -1 && in_squotes == -1)
 				j++;
 		}
 		i++;
@@ -85,14 +86,14 @@ int	ft_zerosep(char *str, char ***dst)
 	return (1);
 }
 
-char **ft_split_line(char *str, char c)
+char	**ft_split_line(char *str, char c)
 {
-	char **res;
-	int	i;
-	int	start;
-	int	end;
-	int	in_Squotes;
-	int	in_Dquotes;
+	char	**res;
+	int		i;
+	int		start;
+	int		end;
+	int		in_squotes;
+	int		in_dquotes;
 
 	if (!ft_search(str, c))
 		return (ft_zerosep(str, &res), res);
@@ -103,14 +104,14 @@ char **ft_split_line(char *str, char c)
 	{
 		while (str[start] && str[start] == c)
 			start++;
-		in_Squotes = -1;
-		in_Dquotes = -1;
+		in_squotes = -1;
+		in_dquotes = -1;
 		end = start;
 		while (str[end])
 		{
-			ft_check_quotes(str[end], &in_Squotes, &in_Dquotes);
-			if (str[end] == c && in_Squotes == -1 && in_Dquotes == -1)
-				break;
+			ft_check_quotes(str[end], &in_squotes, &in_dquotes);
+			if (str[end] == c && in_squotes == -1 && in_dquotes == -1)
+				break ;
 			end++;
 		}
 		res[i] = ft_strndup(str + start, end - start);

@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 15:57:23 by norabino          #+#    #+#             */
-/*   Updated: 2025/06/17 16:55:09 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/19 15:10:25 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	ft_free_split(char **args)
 void	ft_free_tabtab(char ***args)
 {
 	int	i;
-	int j;
+	int	j;
 
 	if (args == NULL)
 		return ;
@@ -64,7 +64,7 @@ void	ft_free_tabtab(char ***args)
 	free(args);
 }
 
-void free_command_lines(t_minishell *minishell)
+void	free_command_lines(t_minishell *minishell)
 {
 	int	i;
 
@@ -86,8 +86,8 @@ void free_command_lines(t_minishell *minishell)
 
 char	*ft_join_free(char *s1, char *s2)
 {
-	char *res;
-	
+	char	*res;
+
 	res = ft_strjoin(s1, s2);
 	if (s2)
 		free(s1);

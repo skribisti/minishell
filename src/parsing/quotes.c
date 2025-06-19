@@ -6,15 +6,15 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 17:34:29 by lucmansa          #+#    #+#             */
-/*   Updated: 2025/06/16 19:27:37 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/19 15:19:35 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char *rm_quotes(char *str, int *begin_q, int *end_q)
+char	*rm_quotes(char *str, int *begin_q, int *end_q)
 {
-	char *res;
+	char	*res;
 	char	*tmp;
 
 	res = ft_strndup(str, *(begin_q));
@@ -31,9 +31,9 @@ char *rm_quotes(char *str, int *begin_q, int *end_q)
 
 char	*get_quotes_index(char *str, int *begin_q, int *end_q)
 {
-	int	i;
-	char quote;
-	char *res;
+	int		i;
+	char	quote;
+	char	*res;
 
 	i = -1;
 	quote = 0;

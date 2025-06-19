@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 17:20:42 by norabino          #+#    #+#             */
-/*   Updated: 2025/06/17 17:42:40 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/19 14:55:56 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,6 @@
 
 # include <readline/readline.h>
 # include <readline/history.h>
-
-// ri <
-// heredoc <<
-// ro >
-// aro >>
 
 typedef struct s_redirections
 {

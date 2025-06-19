@@ -6,18 +6,17 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 18:50:42 by lucmansa          #+#    #+#             */
-/*   Updated: 2025/06/03 15:21:23 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/19 15:10:44 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-
 void	*ft_realloc(void *ptr, int old_size, int n_size)
 {
 	void	*new_ptr;
-	int	min_size;
-	int	i;
+	int		min_size;
+	int		i;
 
 	if (!ptr)
 		return (malloc(n_size));

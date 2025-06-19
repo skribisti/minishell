@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 15:55:50 by norabino          #+#    #+#             */
-/*   Updated: 2025/06/16 16:07:47 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/19 15:30:43 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,119 +73,8 @@ char	*ft_strchr(char *s, int c)
 	return (&s[i]);
 }
 
-int	ft_strcmp(char *s1, char *s2)
+void	skip_spaces(char *str, int *i)
 {
-	int	i;
-
-	i = 0;
-	if (!s1)
-		return (1);
-	while (s1[i] && s2[i] && s1[i] == s2[i])
-		i++;
-	return (s1[i] - s2[i]);
-}
-
-
-
-int	ft_strncmp(char *s1, char *s2, int n)
-{
-	int	i;
-
-	i = 0;
-	while (s1[i] == s2[i] && i < n && s1[i])
-		i++;
-	if (i == n)
-		return (0);
-	return (s1[i] - s2[i]);
-}
-
-
-
-void	ft_set_spaces(char *segment, int begin, int length)
-{
-    int	i;
-
-    i = 0;
-    while (i < length && segment[begin + i])
-    {
-        segment[begin + i] = ' ';
-        i++;
-    }
-}
-
-int	ft_strstrlen(char **str)
-{
-	int	i;
-
-	i = 0;
-	if (!str)
-		return (0);
-	while (str[i])
-		i++;
-	return (i);
-}
-
-int	ft_cpt_heredoc(char *segment)
-{
-	int	i;
-	int	cpt;
-
-	i = 0;
-	cpt = 0;
-	while (segment[i])
-	{
-		if (segment[i] == '<' && segment[i + 1] == '<')
-		{
-			cpt++;
-			i += 2;
-		}
-		else
-			i++;
-	}
-	return (cpt);
-}
-
-int    ft_in_tab(char **tab, char *str)
-{
-    int    i;
-
-    i = 0;
-    while (tab[i])
-    {
-        if (!ft_strcmp(tab[i], str))
-            return (1);
-        i++;
-    }
-    return (0);
-}
-void	ft_print_string(char *str)
-{
-	int	i;
-
-	i = 0;
-	printf("\n\n");
-	while (str[i])
-	{
-		printf("str[%d] = %c\n", i, str[i]);
-		i++;
-	}
-	printf("\n");
-}
-
-int	is_redir(char *str)
-{
-	if (str[0] == '<' || str[0] == '>')
-	{
-		if (str[1] == '<' || str[1] == '>')
-			return (2);
-		return (1);
-	}
-	return (0);
-}
-
-int	is_quotes(char *str)
-{
-	if (str[0] == '\'' || str[0] == '\"')
-		return (1);
-	return (0);
+	while (str[*i] == ' ')
+		(*i)++;
 }
