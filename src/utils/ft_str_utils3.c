@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 15:55:50 by norabino          #+#    #+#             */
-/*   Updated: 2025/06/19 15:30:43 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/19 19:21:26 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,8 @@ char	*ft_strchr(char *s, int c)
 	return (&s[i]);
 }
 
-void	skip_spaces(char *str, int *i)
+void	skip_chars(char *str, int *i, char c)
 {
-	while (str[*i] == ' ')
+	while (str[*i] == c)
 		(*i)++;
 }

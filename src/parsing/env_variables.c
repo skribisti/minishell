@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 17:47:02 by lucmansa          #+#    #+#             */
-/*   Updated: 2025/06/19 15:18:52 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/19 19:31:22 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	*replace_all_var(t_minishell *minishell, char *line)
 		if (line[i] == '<' && line[i + 1] == '<' && !squotes)
 		{
 			i += 2;
-			free(get_str(line, &i));
+			free(get_str(line, &i, ' '));
 		}
 		else if (!squotes && line[i] == '$')
 			line = ft_replace_var(minishell, line, i);

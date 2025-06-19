@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 15:54:39 by norabino          #+#    #+#             */
-/*   Updated: 2025/06/19 15:15:07 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/19 19:25:27 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,3 +59,11 @@ int	ft_nbpipes(char *line)
 	}
 	return (cpt);
 }
+
+int	is_char_invalid(char c)
+{
+	if (c == ' ' || c == '|' || c == '\t' || c == '\n')
+		return (1);
+	return (0);
+}
+

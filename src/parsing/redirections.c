@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 18:43:17 by lucmansa          #+#    #+#             */
-/*   Updated: 2025/06/19 15:23:20 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/19 19:21:51 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,9 @@ char	*handle_redir(t_minishell *minishell, int cmd_idx, char *segment)
 		{
 			start[0] = i;
 			which_redir = ft_which_redir(segment, &i);
-			skip_spaces(segment, &i);
+			skip_chars(segment, &i, ' ');
 			start[1] = i;
-			redir = get_str(segment, &i);
+			redir = get_str(segment, &i, ' ');
 			set_redir(minishell, redir, cmd_idx, which_redir);
 			ft_set_spaces(segment, start[0], is_redir(&segment[start[0]]));
 			ft_set_spaces(segment, start[1], ft_strlen(redir));

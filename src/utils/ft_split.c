@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 17:34:43 by norabino          #+#    #+#             */
-/*   Updated: 2025/06/19 15:31:02 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/19 19:09:34 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	ft_zerosep(char *str, char ***dst)
 	return (1);
 }
 
-char	**ft_split_line(char *str, char c)
+/*char	**ft_split_line1(char *str, char c)
 {
 	char	**res;
 	int		i;
@@ -119,5 +119,35 @@ char	**ft_split_line(char *str, char c)
 		i++;
 	}
 	res[i] = 0;
+	return (res);
+}*/
+
+char	**ft_split_line(char  *str, char c)
+{
+	char **res;
+	char *sub;
+	int		i;
+	int		cpt;
+
+	i = 0;
+	cpt = 0;
+	sub = get_str(str, &i, c);
+	while (sub)
+	{
+		free(sub);
+		cpt++;
+		sub = get_str(str, &i, c);
+	}
+	res = (char **)malloc(sizeof(char *) * (cpt + 1));
+	i = 0;
+	cpt = 0;
+	sub = get_str(str, &i, c);
+	while (sub)
+	{
+		res[cpt] = sub;
+		cpt++;
+		sub = get_str(str, &i, c);
+	}
+	res[cpt] = NULL;
 	return (res);
 }
