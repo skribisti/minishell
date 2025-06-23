@@ -6,11 +6,25 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:26:09 by lucmansa          #+#    #+#             */
-/*   Updated: 2025/06/13 15:51:02 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/23 14:30:27 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	single_fork(t_minishell *minishell, char *cmdchr, int *pipes)
+{
+	int	pid;
+
+	pid = fork();
+	if (pid == 0)
+	{
+		redirect_heredoc(minishell, pipes, 0);
+		execute_command(cmdchr, minishell, 0);
+	}
+	else
+		waitandclose(pipes, pid, &minishell->rt_val);
+}
 
 int	default_redirect(t_minishell *minishell, int d_i_o[2], int p[2], int i)
 {

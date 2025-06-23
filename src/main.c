@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 16:01:06 by norabino          #+#    #+#             */
-/*   Updated: 2025/06/19 18:41:29 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/23 14:30:09 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void	ft_minishell(t_minishell minishell)
 			if (!verif_quotes(minishell.line)
 				|| !ft_parse_line(&minishell))
 				continue ;
-			ft_print_tokens(&minishell);
 			exec_cmd(&minishell);
 			free_command_lines(&minishell);
 		}
@@ -60,6 +59,7 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	if (signal(SIGINT, &sig_handler) == SIG_ERR)
 		exit(1);
+	minishell.rt_val = 0;
 	minishell.env = cpy_env(env);
 	upd_shlvl(&minishell);
 	ft_minishell(minishell);

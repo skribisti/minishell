@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 17:34:43 by norabino          #+#    #+#             */
-/*   Updated: 2025/06/19 19:09:34 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/23 14:42:36 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,45 +35,6 @@ char	*ft_strndup(char *str, int n)
 	return (tab);
 }
 
-void	ft_check_quotes(char c, int *in_squotes, int *in_dquotes)
-{
-	if (c == '\'' && *in_dquotes == -1)
-		*in_squotes = - (*in_squotes);
-	if (c == '\"' && *in_squotes == -1)
-		*in_dquotes = - (*in_dquotes);
-}
-
-int	ft_countwords(char *str, char c)
-{
-	int	i;
-	int	j;
-	int	in_charset;
-	int	in_squotes;
-	int	in_dquotes;
-
-	i = 0;
-	j = 0;
-	in_charset = 0;
-	in_squotes = -1;
-	in_dquotes = -1;
-	while (str[i])
-	{
-		ft_check_quotes(str[i], &in_squotes, &in_dquotes);
-		if (str[i] != c && in_charset != 1)
-		{
-			in_charset = 1;
-			j++;
-		}
-		if (str[i] == c && in_charset == 1)
-		{
-			if (in_dquotes == -1 && in_squotes == -1)
-				j++;
-		}
-		i++;
-	}
-	return (j);
-}
-
 int	ft_zerosep(char *str, char ***dst)
 {
 	*dst = (char **)malloc(sizeof(char *) * 2);
@@ -86,68 +47,59 @@ int	ft_zerosep(char *str, char ***dst)
 	return (1);
 }
 
-/*char	**ft_split_line1(char *str, char c)
+int	ft_countwords(char const *s, int c)
 {
-	char	**res;
-	int		i;
-	int		start;
-	int		end;
-	int		in_squotes;
-	int		in_dquotes;
+	int	i;
+	int	j;
+	int	in;
 
-	if (!ft_search(str, c))
-		return (ft_zerosep(str, &res), res);
-	res = (char **)malloc(sizeof(char *) * (ft_countwords(str, c) + 1));
 	i = 0;
-	start = 0;
-	while (str[start] && i < ft_countwords(str, c))
+	j = 0;
+	in = 0;
+	while (s[i])
 	{
-		while (str[start] && str[start] == c)
-			start++;
-		in_squotes = -1;
-		in_dquotes = -1;
-		end = start;
-		while (str[end])
+		if (s[i] != (char)c && in != 1)
 		{
-			ft_check_quotes(str[end], &in_squotes, &in_dquotes);
-			if (str[end] == c && in_squotes == -1 && in_dquotes == -1)
-				break ;
-			end++;
+			in = 1;
+			j++;
 		}
-		res[i] = ft_strndup(str + start, end - start);
-		start = end;
+		if (s[i] == (char)c && in == 1)
+			in = 0;
 		i++;
 	}
-	res[i] = 0;
-	return (res);
-}*/
+	return (j);
+}
 
-char	**ft_split_line(char  *str, char c)
+void	ft_build_line(char *str, int *s, int *e, char *c)
 {
-	char **res;
-	char *sub;
-	int		i;
-	int		cpt;
+	while (str[*s] == *c && str[*s])
+		(*s)++;
+	*e = *s;
+	while (str[*e] != *c && str[*e])
+		(*e)++;
+}
 
-	i = 0;
-	cpt = 0;
-	sub = get_str(str, &i, c);
-	while (sub)
+char	**ft_split(char *str, char c)
+{
+	int		tab[3];
+	char	**dst;
+
+	if (!ft_search(str, c))
+		return (ft_zerosep(str, &dst), dst);
+	dst = (char **)malloc(sizeof(char *) * (ft_countwords(str, (int)c) + 1));
+	if (!dst)
+		return (NULL);
+	tab[2] = 0;
+	tab[0] = 0;
+	while (str[tab[0]] && tab[2] < ft_countwords(str, (int)c))
 	{
-		free(sub);
-		cpt++;
-		sub = get_str(str, &i, c);
+		ft_build_line((char *)str, &tab[0], &tab[1], &c);
+		dst[tab[2]] = ft_strndup((char *)str + tab[0], tab[1] - tab[0]);
+		if (dst[tab[2]] == NULL)
+			return (ft_free_dst(&dst, &tab[2]), NULL);
+		tab[0] = tab[1];
+		tab[2]++;
 	}
-	res = (char **)malloc(sizeof(char *) * (cpt + 1));
-	i = 0;
-	cpt = 0;
-	sub = get_str(str, &i, c);
-	while (sub)
-	{
-		res[cpt] = sub;
-		cpt++;
-		sub = get_str(str, &i, c);
-	}
-	res[cpt] = NULL;
-	return (res);
+	dst[tab[2]] = 0;
+	return (dst);
 }

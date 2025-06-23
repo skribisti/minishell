@@ -6,11 +6,23 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 17:47:34 by lucmansa          #+#    #+#             */
-/*   Updated: 2025/06/19 15:25:55 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/23 14:41:41 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+char	*convert_heredoc(t_minishell *mini, char *str)
+{
+	int	begin_q;
+	int	end_q;
+
+	begin_q = -1;
+	end_q = -1;
+	str = replace_all_var(mini, str);
+	str = get_quotes_index(str, &begin_q, &end_q);
+	return (str);
+}
 
 int	readline_heredoc(t_minishell *minishell, char *delimiter, int cmd_idx)
 {
@@ -29,10 +41,9 @@ int	readline_heredoc(t_minishell *minishell, char *delimiter, int cmd_idx)
 		if (!ft_strcmp(input, delimiter))
 			return (free(input), 0);
 		minishell->command_line[cmd_idx].redirect.heredoc
-			= ft_join_free(ft_join_free(
-					minishell->command_line[cmd_idx].redirect.heredoc,
-					input), "\n");
-		free(input);
+			= convert_heredoc(minishell, ft_join_free(ft_join_free(
+						minishell->command_line[cmd_idx].redirect.heredoc,
+						input, 2), "\n", 0));
 	}
 	return (1);
 }

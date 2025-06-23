@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lucmansa <lucmansa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 14:55:08 by lucmansa          #+#    #+#             */
-/*   Updated: 2025/06/02 16:45:09 by lucmansa         ###   ########.fr       */
+/*   Updated: 2025/06/20 16:37:11 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*ft_get_name(char *env)
 	char	*res;
 
 	if (ft_strchr(env, '='))
-		res = ft_strndup(env, (ft_strchr(env, '=') - env));
+		res = ft_strndup(env, (ft_strchr(env, '=') - env + 1));
 	else
 		res = ft_strdup(env);
 	return (res);

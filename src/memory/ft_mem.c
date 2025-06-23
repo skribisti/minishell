@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_mem.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lucmansa <lucmansa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 15:57:23 by norabino          #+#    #+#             */
-/*   Updated: 2025/06/19 15:10:25 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/19 18:06:38 by lucmansa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int	ft_init(t_minishell *minishell, int nb_cmds)
 		minishell->command_line[i].redirect.ro = NULL;
 		minishell->command_line[i].redirect.aro = NULL;
 		minishell->command_line[i].redirect.heredoc = NULL;
-		minishell->rt_val = 0;
 		i++;
 	}
 	return (1);
@@ -84,12 +83,14 @@ void	free_command_lines(t_minishell *minishell)
 	free(minishell->line);
 }
 
-char	*ft_join_free(char *s1, char *s2)
+char	*ft_join_free(char *s1, char *s2, int i)
 {
 	char	*res;
 
 	res = ft_strjoin(s1, s2);
 	if (s2)
 		free(s1);
+	if (i)
+		free(s2);
 	return (res);
 }

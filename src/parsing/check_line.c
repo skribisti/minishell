@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 15:54:01 by norabino          #+#    #+#             */
-/*   Updated: 2025/06/19 19:20:46 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/23 14:41:06 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	print_error(char c)
 int	check_redir(char *str, int i)
 {
 	i += is_redir(&str[i]);
-	skip_chars(str, &i, ' ');
+	skip_spaces(str, &i);
 	if (!str[i] || str[i] == '>' || str[i] == '<' || str[i] == '|')
 		return (print_error(str[i]), 0);
 	return (1);
@@ -46,7 +46,7 @@ int	check_pipes(char *str, int i)
 	if (j == -1)
 		return (print_error('|'), 0);
 	i++;
-	skip_chars(str, &i, ' ');
+	skip_spaces(str, &i);
 	if (!str[i])
 		return (print_error('|'), 0);
 	return (1);
@@ -54,17 +54,23 @@ int	check_pipes(char *str, int i)
 
 int	is_line_valid(char *str, int nb_cmd)
 {
-	int	i;
+	int		i;
+	char	quote;	
 
 	i = 0;
-	skip_chars(str, &i, ' ');
+	quote = 0;
+	skip_spaces(str, &i);
 	if (nb_cmd >= 2 && str[i] == '|')
 		return (print_error(str[i]), 0);
 	while (str[i])
 	{
-		if (is_redir(&str[i]) && !check_redir(str, i))
+		if (is_quotes(&str[i]) && !quote)
+			quote = str[i];
+		else if (is_quotes(&str[i]) && quote)
+			quote = 0;
+		if (is_redir(&str[i]) && !quote && !check_redir(str, i))
 			return (0);
-		if (str[i] == '|' && !check_pipes(str, i))
+		if (str[i] == '|' && !quote && !check_pipes(str, i))
 			return (0);
 		i++;
 	}

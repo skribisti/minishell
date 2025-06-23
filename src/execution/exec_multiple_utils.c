@@ -38,10 +38,6 @@ void	execute_child(t_minishell *minishell, int **pipes, int idx, int *pid)
 	char	*cmdchr;
 	int		ret;
 
-	cmdchr = search_command(minishell, idx);
-	if (!cmdchr)
-		return (faild_schr(minishell, idx, cmdchr),
-			exit_fail(minishell, pipes, pid, 127));
 	if (idx > 0)
 		dup2(pipes[idx - 1][0], STDIN_FILENO);
 	if (idx < minishell->nb_cmd - 1)
@@ -49,6 +45,10 @@ void	execute_child(t_minishell *minishell, int **pipes, int idx, int *pid)
 	if (redirect_multiple(minishell, pipes, idx) < 0)
 		exit_fail(minishell, pipes, pid, 1);
 	closepipes(minishell, pipes);
+	cmdchr = search_command(minishell, idx);
+	if (!cmdchr)
+		return (faild_schr(minishell, idx, cmdchr, idx),
+			exit_fail(minishell, pipes, pid, 127));
 	ret = execute_builtins(cmdchr, minishell, idx);
 	if (ret == -1)
 		execute_command(cmdchr, minishell, idx);

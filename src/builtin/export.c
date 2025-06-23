@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lucmansa <lucmansa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 19:34:52 by lucmansa          #+#    #+#             */
-/*   Updated: 2025/06/02 17:30:48 by lucmansa         ###   ########.fr       */
+/*   Updated: 2025/06/23 14:30:45 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,16 +62,18 @@ static char	***split_cpy_env(char **env)
 	return (new);
 }
 
-static int	ton_pere_le_chien(char *str)
+static int	check_valid(char *str)
 {
 	int	i;
 
 	i = -1;
 	while (str[++i] != '\0')
 	{
+		if (str[i] == '=' && (i -1) >= 0)
+			return (1);
 		if (i == 0 && ('0' <= str[i] && str[i] <= '9'))
 			return (0);
-		if (str[i] == '+' && i == (ft_strlen(str) - 1))
+		if (str[i] == '+' && i == (ft_strlen(str) - 2) && (i - 1) >= 0)
 			return (1);
 		if (!(('A' <= str[i] && str[i] <= 'Z')
 				|| ('a' <= str[i] && str[i] <= 'z')
@@ -83,16 +85,22 @@ static int	ton_pere_le_chien(char *str)
 
 static int	ta_mere_la_pute(t_minishell *minishell, char *name, char *value)
 {
-	if (!ton_pere_le_chien(name))
-		return (1);
-	if (name[ft_strlen(name) - 1] == '+')
+	if (!check_valid(name))
+		return (write(2, "minishell: export: `", 20),
+			write(2, name, ft_strlen(name)),
+			write(2, "': not a valid identifier\n", 26), 1);
+	if (name[ft_strlen(name) - 2] == '+')
 	{
-		name[ft_strlen(name) - 1] = '\0';
+		name[ft_strlen(name) - 2] = '\0';
 		minishell->env = set_var_env(minishell->env, name,
 				ft_strjoin(ft_getenv(minishell->env, name), value));
 	}
 	else
+	{
+		if (name[ft_strlen(name) - 1] == '=')
+			name[ft_strlen(name) - 1] = '\0';
 		minishell->env = set_var_env(minishell->env, name, value);
+	}
 	free(name);
 	return (0);
 }

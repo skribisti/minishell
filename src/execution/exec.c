@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 16:18:08 by lucmansa          #+#    #+#             */
-/*   Updated: 2025/06/17 17:39:26 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/23 14:27:49 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ static void	exec_multiple(t_minishell *minishell)
 			execute_child(minishell, pipes, i, pid);
 		else
 			if (minishell->command_line[i].redirect.heredoc)
-				write(pipes[i][1], &minishell->command_line[i].redirect.heredoc,
+				write(pipes[i][1],
+					&minishell->command_line[i].redirect.heredoc,
 					ft_strlen(minishell->command_line[i].redirect.heredoc));
 		i++;
 	}
@@ -51,29 +52,20 @@ static void	exec_multiple(t_minishell *minishell)
 static int	exec_single(t_minishell *minishell)
 {
 	char	*cmdchr;
-	int		pid;
 	int		default_[2];
 	int		ret;
 	int		pipes[2];
 
-	cmdchr = search_command(minishell, 0);
-	if (!cmdchr)
-		return (faild_schr(minishell, 0, cmdchr), 0);
 	pipe(pipes);
 	if (default_redirect(minishell, default_, pipes, 0) < 0)
 		return (default_redirect(NULL, default_, NULL, 1));
+	cmdchr = search_command(minishell, 0);
+	if (!cmdchr)
+		return (default_redirect(NULL, default_, NULL, 1),
+			faild_schr(minishell, 0, cmdchr, 0), 0);
 	ret = execute_builtins(cmdchr, minishell, 0);
 	if (ret == -1)
-	{
-		pid = fork();
-		if (pid == 0)
-		{
-			redirect_heredoc(minishell, pipes, 0);
-			execute_command(cmdchr, minishell, 0);
-		}
-		else
-			waitandclose(pipes, pid, &minishell->rt_val);
-	}
+		single_fork(minishell, cmdchr, pipes);
 	return (default_redirect(NULL, default_, NULL, 1), 0);
 }
 

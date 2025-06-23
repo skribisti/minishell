@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 20:13:32 by lucmansa          #+#    #+#             */
-/*   Updated: 2025/06/19 15:23:13 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/20 16:42:49 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	**set_var_env(char **env, char *name, char *value)
 	char	*new_var;
 	int		size;
 
-	if (!name || !env)
+	if (!name || !name[0] || !env)
 		return (env);
 	new_var = set_new_var(name, value);
 	idx = get_env_index(env, name);
