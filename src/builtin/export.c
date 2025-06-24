@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lucmansa <lucmansa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 19:34:52 by lucmansa          #+#    #+#             */
-/*   Updated: 2025/06/23 14:30:45 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/24 15:39:36 by lucmansa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ int	ft_export(t_minishell *minishell, char **args)
 		env_cpy = split_cpy_env(minishell->env);
 		sort_tab_p(env_cpy, tab_len((char **)env_cpy));
 		ft_free_tabtab(env_cpy);
-		return (1);
+		return (0);
 	}
 	i = 0;
 	while (args[++i])
@@ -123,11 +123,13 @@ int	ft_export(t_minishell *minishell, char **args)
 		if (ft_strchr(args[i], '=') == NULL)
 		{
 			if (get_env_index(minishell->env, args[i]) == -1)
-				ta_mere_la_pute(minishell, ft_strdup(args[i]), NULL);
+				if (ta_mere_la_pute(minishell, ft_strdup(args[i]), NULL))
+					return (1);
 		}
 		else
-			ta_mere_la_pute(minishell, ft_get_name(args[i]),
-				ft_get_value(args[i]));
+			if (ta_mere_la_pute(minishell, ft_get_name(args[i]),
+					ft_get_value(args[i])))
+				return (1);
 	}
-	return (1);
+	return (0);
 }

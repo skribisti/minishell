@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_line.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lucmansa <lucmansa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 15:54:01 by norabino          #+#    #+#             */
-/*   Updated: 2025/06/23 14:41:06 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/23 19:09:44 by lucmansa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	check_pipes(char *str, int i)
 	int	j;
 
 	j = i - 1;
-	while (j >= 0 && str[j] == ' ')
+	while (j >= 0 && is_space(str[j]))
 		j--;
 	if (j == -1)
 		return (print_error('|'), 0);

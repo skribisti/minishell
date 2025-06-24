@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_variables.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lucmansa <lucmansa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 17:47:02 by lucmansa          #+#    #+#             */
-/*   Updated: 2025/06/20 17:16:34 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/23 16:53:02 by lucmansa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,31 +22,42 @@ int	ft_is_var(char c)
 	return (1);
 }
 
+static int	skip_var(char *str, int start)
+{
+	int	j;
+
+	j = 0;
+	while (ft_is_var(str[start + j]))
+		j++;
+	return (j);
+}
+
 char	*ft_replace_var(t_minishell *minishell, char *str, int *start)
 {
 	int		j;
+	int		tmp;
 	char	*var;
 	char	*res;
 
-	j = 0;
 	(*start)++;
 	var = NULL;
-	if (str[(*start)] != '$' && str[(*start)] == '?')
+	tmp = 0;
+	j = 0;
+	if (str[(*start)] == '?' && ++tmp)
 		var = ft_itoa(minishell->rt_val);
-	else if (str[(*start)] != '$')
+	else if (!str[(*start)] || !ft_is_var(str[(*start)]))
+		var = ft_strdup("$");
+	else if (str[(*start)])
 	{
-		while (ft_is_var(str[(*start) + j]))
-			j++;
+		j = skip_var(str, (*start));
 		res = ft_substr(str, (*start), j);
-		var = ft_getenv(minishell->env, res);
+		var = ft_strdup(ft_getenv(minishell->env, res));
 		free(res);
 	}
-	if (!var)
-		res = ft_strndup(str, (*start));
-	else
-		res = ft_strndup(str, (*start) - 1);
-	res = ft_join_free(ft_join_free(res, var, 0), &str[(*start) + j], 0);
-	(*start) += ft_strlen(var) + 1;
+	res = ft_strndup(str, (*start) - 1);
+	res = ft_join_free(ft_join_free(res, var, 0), &str[(*start) + j + tmp], 0);
+	(*start) += ft_strlen(var) - 1;
+	free(var);
 	return (res);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lucmansa <lucmansa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 17:20:42 by norabino          #+#    #+#             */
-/*   Updated: 2025/06/23 14:43:14 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/23 19:12:06 by lucmansa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # include <fcntl.h>
 # include <sys/ioctl.h>
 # include <signal.h>
+
+# include <termios.h>
 
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -72,6 +74,7 @@ char	**ft_split(char *str, char c);
 char	*ft_strndup(char *str, int n);
 int		is_line_valid(char *str, int nb_cmd);
 void	ft_print_string(char *str);
+int		is_space(char c);
 
 //redirections
 char	*handle_redir(t_minishell *minishell, int cmd_idx, char *segment);

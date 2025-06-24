@@ -68,7 +68,7 @@ char	*get_str(char *seg, int *i)
 			quote = seg[size + (*i)];
 		else if (seg[size + (*i)] == quote)
 			quote = 0;
-		else if (seg[size + (*i)] == ' ' && !quote)
+		else if (is_space(seg[size + (*i)]) && !quote)
 			break ;
 		size++;
 	}
