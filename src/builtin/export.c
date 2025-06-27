@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lucmansa <lucmansa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 19:34:52 by lucmansa          #+#    #+#             */
-/*   Updated: 2025/06/24 15:39:36 by lucmansa         ###   ########.fr       */
+/*   Updated: 2025/06/27 16:04:09 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ static int	ta_mere_la_pute(t_minishell *minishell, char *name, char *value)
 		minishell->env = set_var_env(minishell->env, name, value);
 	}
 	free(name);
+	free(value);
 	return (0);
 }
 

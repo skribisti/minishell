@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lucmansa <lucmansa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 17:34:29 by lucmansa          #+#    #+#             */
-/*   Updated: 2025/06/24 15:52:53 by lucmansa         ###   ########.fr       */
+/*   Updated: 2025/06/27 15:56:31 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static char	*rm_quotes(char *str, int *begin_q, int *end_q)
 	res = ft_join_free(res, tmp, 1);
 	*(begin_q) = -1;
 	*(end_q) = -1;
+	free(str);
 	return (res);
 }
 
@@ -31,11 +32,9 @@ char	*get_quotes_index(char *str, int *begin_q, int *end_q)
 {
 	int		i;
 	char	quote;
-	char	*res;
 
 	i = -1;
 	quote = 0;
-	res = NULL;
 	while (str && str[++i])
 	{
 		if ((str[i] == '\'' || str[i] == '\"') && !quote)
@@ -43,16 +42,17 @@ char	*get_quotes_index(char *str, int *begin_q, int *end_q)
 			quote = str[i];
 			*(begin_q) = i;
 		}
-		else if (str[i] == quote && quote)
+		else if (str[i] == quote)
 		{
 			quote = 0;
 			*(end_q) = i;
 		}
 		if (*(begin_q) != -1 && *(end_q) != -1)
-			res = rm_quotes(str, begin_q, end_q);
+		{
+			str = rm_quotes(str, begin_q, end_q);
+			i -= 2;
+		}
 	}
-	if (res)
-		return (free(str), res);
 	return (str);
 }
 

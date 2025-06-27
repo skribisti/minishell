@@ -104,6 +104,8 @@ int	ft_parse_segment(t_minishell *minishell, int cmd_idx, char *segment)
 	j = 0;
 	segment = replace_all_var(minishell, segment);
 	segment = handle_redir(minishell, cmd_idx, segment);
+	if (!segment)
+		return (0);
 	ft_malloc_args(minishell, segment, cmd_idx);
 	while (segment[i])
 	{
@@ -135,7 +137,7 @@ int	ft_parse_line(t_minishell *minishell)
 	pipe_start = 0;
 	pipe_end = 0;
 	ft_init(minishell, minishell->nb_cmd);
-	if (!is_line_valid(minishell->line, minishell->nb_cmd))
+	if (!is_line_valid(minishell, minishell->line, minishell->nb_cmd))
 		return (0);
 	while (cmd_idx < minishell->nb_cmd)
 	{

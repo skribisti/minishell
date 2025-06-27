@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:29:36 by lucmansa          #+#    #+#             */
-/*   Updated: 2025/06/16 17:25:16 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/27 17:26:50 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,27 +23,34 @@ void	redirect_heredoc(t_minishell *minishell, int pipes[2], int ixd)
 	return ;
 }
 
-int	redirect_output(t_minishell *minishell, int idx)
+int	try_to_open(char *name)
 {
 	int	fd;
 
 	fd = 0;
-	if (minishell->command_line[idx].redirect.aro)
-	{
-		fd = open(minishell->command_line[idx].redirect.aro,
-				O_WRONLY | O_CREAT | O_APPEND, 0644);
-		if (fd == -1)
-			perror(minishell->command_line[idx].redirect.aro);
-	}
-	if (minishell->command_line[idx].redirect.ro)
-	{
-		fd = open(minishell->command_line[idx].redirect.ro,
-				O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (fd == -1)
-			perror(minishell->command_line[idx].redirect.ro);
-	}
+	if (name)
+		fd = open(name, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	return (fd);
+}
+
+int	redirect_output(t_minishell *minishell, int idx)
+{
+	int	fd;
+
+	fd = try_to_open(minishell->command_line[idx].redirect.aro);
 	if (fd == -1)
+	{
+		perror(minishell->command_line[idx].redirect.aro);
+		minishell->rt_val = 1;
 		return (-1);
+	}
+	fd = try_to_open(minishell->command_line[idx].redirect.ro);
+	if (fd == -1)
+	{
+		perror(minishell->command_line[idx].redirect.ro);
+		minishell->rt_val = 1;
+		return (-1);
+	}
 	dup2(fd, STDOUT_FILENO);
 	close(fd);
 	return (1);

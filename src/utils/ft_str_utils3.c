@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_str_utils3.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lucmansa <lucmansa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 15:55:50 by norabino          #+#    #+#             */
-/*   Updated: 2025/06/24 15:39:14 by lucmansa         ###   ########.fr       */
+/*   Updated: 2025/06/27 15:55:37 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_nextpipe(char *line, int last_pipe)
 	{
 		if (is_quotes(&line[last_pipe]) && !quote)
 			quote = line[last_pipe];
-		else if (is_quotes(&line[last_pipe]) && quote)
+		else if (line[last_pipe] == quote)
 			quote = 0;
 		if (line[last_pipe] == '|' && !quote)
 			return (last_pipe);
