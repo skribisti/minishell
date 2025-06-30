@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lucmansa <lucmansa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 18:13:07 by lucmansa          #+#    #+#             */
-/*   Updated: 2025/06/26 17:47:31 by lucmansa         ###   ########.fr       */
+/*   Updated: 2025/06/30 15:34:13 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	ft_exitnoarg(t_minishell *minishell)
 {
 	if (minishell->nb_cmd == 1)
 		write(1, "exit\n", 5);
-	exiting(minishell, 0);
+	exiting(minishell, minishell->rt_val);
 	return (1);
 }
 

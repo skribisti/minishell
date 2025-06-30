@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 19:34:52 by lucmansa          #+#    #+#             */
-/*   Updated: 2025/06/27 16:04:09 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/30 15:47:10 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static int	check_valid(char *str)
 	return (1);
 }
 
-static int	ta_mere_la_pute(t_minishell *minishell, char *name, char *value)
+static int	add_var_env(t_minishell *minishell, char *name, char *value)
 {
 	if (!check_valid(name))
 		return (write(2, "minishell: export: `", 20),
@@ -124,11 +124,11 @@ int	ft_export(t_minishell *minishell, char **args)
 		if (ft_strchr(args[i], '=') == NULL)
 		{
 			if (get_env_index(minishell->env, args[i]) == -1)
-				if (ta_mere_la_pute(minishell, ft_strdup(args[i]), NULL))
+				if (add_var_env(minishell, ft_strdup(args[i]), NULL))
 					return (1);
 		}
 		else
-			if (ta_mere_la_pute(minishell, ft_get_name(args[i]),
+			if (add_var_env(minishell, ft_get_name(args[i]),
 					ft_get_value(args[i])))
 				return (1);
 	}

@@ -3,14 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lucmansa <lucmansa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:09:34 by lucmansa          #+#    #+#             */
-/*   Updated: 2025/05/28 15:30:21 by lucmansa         ###   ########.fr       */
+/*   Updated: 2025/06/30 15:49:34 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
+
+static int	no_newline(char *str)
+{
+	int	i;
+
+	if (str[0] != '-')
+		return (0);
+	i = 1;
+	while (str[i] == 'n')
+		i++;
+	if (str[i] == '\0')
+		return (1);
+	return (0);
+}
 
 int	ft_echo(char **argv)
 {
@@ -21,7 +35,7 @@ int	ft_echo(char **argv)
 	n = 0;
 	if (!argv[1])
 		return (printf("\n"), 0);
-	while (argv[i] && argv[i][0] == '-' && argv[i][1] == 'n')
+	while (argv[i] && no_newline(argv[i]))
 	{
 		n = 1;
 		i++;
