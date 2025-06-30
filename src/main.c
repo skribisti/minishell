@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 16:01:06 by norabino          #+#    #+#             */
-/*   Updated: 2025/06/30 15:47:36 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/30 16:51:01 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ static void	handle_sigquit(void)
 	terminal.c_cc[VQUIT] = 0;
 	if (tcsetattr(STDIN_FILENO, TCSANOW, &terminal) == -1)
 		return ;
-	signal(SIGQUIT, &sig_handler);
 }
 
 void	ft_minishell(t_minishell minishell)
@@ -54,11 +53,12 @@ void	ft_minishell(t_minishell minishell)
 				g_sig = 0;
 			}
 			minishell.nb_cmd = ft_nbpipes(minishell.line) + 1;
+			add_history(minishell.line);
 			if (!verif_quotes(minishell.line)
 				|| !ft_parse_line(&minishell))
 				continue ;
+			//ft_print_tokens(&minishell);
 			exec_cmd(&minishell);
-			add_history(minishell.line);
 			free_command_lines(&minishell);
 		}
 	}

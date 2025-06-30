@@ -6,7 +6,7 @@
 /*   By: norabino <norabino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 18:43:17 by lucmansa          #+#    #+#             */
-/*   Updated: 2025/06/27 16:22:24 by norabino         ###   ########.fr       */
+/*   Updated: 2025/06/30 16:46:21 by norabino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ char	*replace_redir(char *seg)
 	{
 		if (is_redir(&seg[i]))
 		{
-			ft_set_spaces(seg, i - 2, ft_which_redir(seg, &i));
+			tmp = i;
+			ft_set_spaces(seg, tmp, ft_which_redir(seg, &i));
 			tmp = i;
 			free(get_str(seg, &i));
 			ft_set_spaces(seg, tmp, i - tmp + 1);

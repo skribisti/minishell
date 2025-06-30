@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-/*int	ft_print_tokens(t_minishell *minishell)
+int	ft_print_tokens(t_minishell *minishell)
 {
 	int	i;
 	int	j;
@@ -49,7 +49,7 @@
 		i++;
 	}
 	return (0);
-}*/
+}
 
 char	*get_str(char *seg, int *i)
 {
